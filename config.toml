@@ -1,9 +1,9 @@
 [base]
 mode = "alt"
-regex = "life"
+regex = "chaos res"
 
 [alt]
-fill_prefix = true 
+fill_prefix = false 
 fill_suffix = true 
 
 [alch]

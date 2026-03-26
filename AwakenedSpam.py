@@ -5,6 +5,7 @@ import toml
 import time
 import re
 import os
+from datetime import datetime
 
 with open('config.toml', 'r') as f:
     config = toml.load(f)
@@ -21,7 +22,15 @@ ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
 
 EXIT_KEY = 'esc'
 
+def elapsed_time(start_time):
+    total_seconds = time.time() - start_time
+    minutes = int(total_seconds // 60)
+    seconds = int(total_seconds % 60)
+    return f"Took {minutes}m {seconds:02d}s."
+
 def start_clicking():
+    start_time = time.time()
+
     interval_sec = INTERVAL_MS / 1000.0
     print(f"[!] Started. To EXIT early let go of SHIFT!")
     print(f"Mode: {MODE}")
@@ -45,12 +54,14 @@ def start_clicking():
 
         item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR: Item name not found!" 
 
+        timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
         # Print formatted result log.
-        print(f"Result {str(i).rjust(attempt_width)}: Regex: \"{REGEX}\" Item Name: {item_name} {alt_extra_info}")
+        print(f"[{timestamp}] Result {str(i).rjust(attempt_width)}: Regex: \"{REGEX}\" Item Name: {item_name} {alt_extra_info}")
 
         # Check for regex match.
         if re.search(REGEX, raw_text, re.IGNORECASE):
             print("[!] Match found! Exiting.")
+            print(elapsed_time(start_time))
             os._exit(0)
 
         has_prefix = bool(re.search("Prefix", raw_text)) 
@@ -81,10 +92,12 @@ def start_clicking():
         while time.time() < end_time:
             if not keyboard.is_pressed('shift'):
                 print("[!] Shift released during wait. Exiting.")
+                print(elapsed_time(start_time))
                 os._exit(0)
             time.sleep(0.01)
 
     print("[!] Safety limit reached. Exiting.")
+    print(elapsed_time(start_time))
     os._exit(0)
 
 def pre_start_exit():

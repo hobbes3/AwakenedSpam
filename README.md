@@ -154,15 +154,21 @@ Waiting...
 Mode: alt
 Safety limit: 100 attempts
 Interval: 100 ms
-Fill prefix: True
+Fill prefix: False
 Fill suffix: True
-Result   0: Regex: "life" Item Name: Runner's Vaal Greaves of the Ice
-Result   1: Regex: "life" Item Name: Vaal Greaves of the Ice
-Result   2: Regex: "life" Item Name: Lacquered Vaal Greaves of the Ice (filled prefix)
-Result   3: Regex: "life" Item Name: Lobstered Vaal Greaves
-Result   4: Regex: "life" Item Name: Lobstered Vaal Greaves of the Gods (filled suffix)
-Result   5: Regex: "life" Item Name: Healthy Vaal Greaves of Youth
+[21:11:50.860] Result   0: Regex: "chaos res" Item Name: Studded Vaal Greaves of the Kiln
+[21:11:51.122] Result   1: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of the Starfish
+[21:11:51.382] Result   2: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of Raiding
+[21:11:51.644] Result   3: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of the Troll
+[21:11:51.902] Result   4: Regex: "chaos res" Item Name: Oyster's Vaal Greaves
+[21:11:52.366] Result   5: Regex: "chaos res" Item Name: Oyster's Vaal Greaves of the Yeti (filled suffix)
+[21:11:52.634] Result   6: Regex: "chaos res" Item Name: Sanguine Vaal Greaves of the Salamander
+[21:11:52.893] Result   7: Regex: "chaos res" Item Name: Vaal Greaves of Thick Skin
+[21:11:53.152] Result   8: Regex: "chaos res" Item Name: Healthy Vaal Greaves of the Worthy
+[21:11:53.409] Result   9: Regex: "chaos res" Item Name: Vaal Greaves of the Leviathan
+[21:11:53.668] Result  10: Regex: "chaos res" Item Name: Sprinter's Vaal Greaves of the Lost
 [!] Match found! Exiting.
+Took 0m 02s.
 ```
 
 ## Tips
