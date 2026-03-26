@@ -120,7 +120,7 @@ fill_suffix = true
 
 ### [alch] section
 
-Reserved for future alchemy orb features (not currently implemented).
+Reserved for future alchemy orb settings (no extra setting currently available).
 
 ```toml
 [alch]
