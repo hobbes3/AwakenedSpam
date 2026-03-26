@@ -71,12 +71,14 @@ Don't forget to configure `config.toml` before starting the script!
 
 Once the script is running:
 
-1. Open your crafting panel (inventory, currency tab, etc.).
-2. Hold down `SHIFT`.
-3. `RIGHT CLICK` the appropriate crafting orb (depending on what you set in `mode`).
-4. Hover over your target item.
-5. Press `HOME` while keep holding down `SHIFT`.
-6. Let go of `SHIFT` to stop the script immediately.
+1. Switch to your Path of Exile window.
+2. Open your crafting panel (inventory, currency tab, etc).
+3. Make sure your target item is already in an appropriate state, ie magic for alteration or rare/normal for alchemy.
+4. Hold down `SHIFT`.
+5. `RIGHT CLICK` the appropriate crafting orb (depending on what you set in `mode`).
+6. Hover over your target item.
+7. Press `HOME` while keep holding down `SHIFT`. Don't move your mouse off the target item.
+8. Let go of `SHIFT` to stop the script immediately.
 
 ## Configuration
 
