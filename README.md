@@ -18,7 +18,7 @@ Awakened Spam automates the alteration orb rolling process by:
 ✨ **Automatic item capture** - Reads directly from clipboard  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
 ✨ **Safety limit** - Prevents accidental overspending of orbs  
-✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately
+✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately  
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **No GUI required** - Lightweight console-based interface  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
@@ -57,7 +57,7 @@ uv sync
 
 ## Usage
 
-### 1. Configure your settings in `config.toml` (see Configuration section below)
+### 1. Configure your settings in `config.toml` (see [Configuration](#configuration) section below)
 
 ### 2. Launch the script
 
@@ -103,7 +103,7 @@ regex = "life"
 - `"merciless|dictator"` - Match either the mod "Merciless" or "Dictator" (for physical damage weapons).
 - `"prefix"` - Match any item that has a prefix (since the word "Prefix" will show up in the advanced item description).
 - `"melee stun|per 10 str"` - Will match either the Elder mods "Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun" OR "1% increased Spell Damage per 10 Strength".
-- `"\+([89][1-9]|[1-9][0-9]{2})\S+ to maximum Life"` - Match any life above 80, such +123%.
+- `"\+([89][1-9]|[1-9][0-9]{2})\S+ to maximum Life"` - Match any life above 80%, such as "+123% to maximum Life".
 
 ### [alt] section
 
@@ -171,6 +171,14 @@ Fill suffix: True
 Took 0m 02s.
 ```
 
+## Questions
+- Why do I have to hold `Shift` while the script is running? Why can't I afk?
+  - I tried to use the `keyboard` package to continue holding down `Shift`, but I couldn't get it to work. Maybe it needs a lower level control for direct driver communication. I'll be happy to look at any pull requests.
+- Will this work on the harvest horticraft station? 
+  - No, since the mouse will have to move to click the "Craft" button, then back to the item to copy the item. But definitely possible. I can work on this as a future update.
+- Will I get banned for using this?
+  - I'm not sure. This project is for educational purposes. Use at your own risk. 
+  
 ## Tips
 
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
@@ -190,4 +198,4 @@ This tool automates in-game actions. I created this for educational purposes. Us
 
 ## Contributing
 
-Feel free to open issues, submit pull requests, or suggest improvements!
+Feel free to open issues (please read the [Questions](#questions) and [Tips](#tips) section first), submit pull requests, or suggest improvements!
