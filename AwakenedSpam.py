@@ -23,7 +23,7 @@ EXIT_KEY = 'esc'
 
 def start_clicking():
     interval_sec = INTERVAL_MS / 1000.0
-    print(f"\n[!] Started. To EXIT early let go of SHIFT!")
+    print(f"[!] Started. To EXIT early let go of SHIFT!")
     print(f"Mode: {MODE}")
     print(f"Safety limit: {SAFETY_LIMIT} attempts")
     print(f"Interval: {INTERVAL_MS} ms")
@@ -50,7 +50,7 @@ def start_clicking():
 
         # Check for regex match.
         if re.search(REGEX, raw_text, re.IGNORECASE):
-            print("Match found! Exiting.")
+            print("[!] Match found! Exiting.")
             os._exit(0)
 
         has_prefix = bool(re.search("Prefix", raw_text)) 
@@ -80,15 +80,15 @@ def start_clicking():
         end_time = time.time() + interval_sec
         while time.time() < end_time:
             if not keyboard.is_pressed('shift'):
-                print("\n[!] Shift released during wait. Exiting.")
+                print("[!] Shift released during wait. Exiting.")
                 os._exit(0)
             time.sleep(0.01)
 
-    print("Safety limit reached. Exiting.")
+    print("[!] Safety limit reached. Exiting.")
     os._exit(0)
 
 def pre_start_exit():
-    print(f"{EXIT_KEY.upper()} pressed. Exiting.")
+    print(f"[!] {EXIT_KEY.upper()} pressed. Exiting.")
     os._exit(0)
 
 if MODE not in ("alt", "alch"):

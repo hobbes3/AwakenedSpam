@@ -67,14 +67,16 @@ python AwakenedSpam.py
 
 ### 3. In-game workflow
 
-- Follow the instruction after running the script. For example, taken from the script output:
+Don't forget to configure `config.toml` before starting the script!
 
-```
-======= START OF PROGRAM ========
-[!] Right click an ORB OF ALTERATION, hold SHIFT, hover over the target item, then press HOME to start.
-Keep holding down SHIFT after starting. Releasing it will EXIT the program immediately.
-Or press ESC to exit now.
-```
+Once the script is running:
+
+1. Open your crafting panel (inventory, currency tab, etc.).
+2. Hold down `SHIFT`.
+3. `RIGHT CLICK` the appropriate crafting orb (depending on what you set in `mode`).
+4. Hover over your target item.
+5. Press `HOME` while keep holding down `SHIFT`.
+6. Let go of `SHIFT` to stop the script immediately.
 
 ## Configuration
 
@@ -139,14 +141,37 @@ safety_limit = 100
 - **`interval_ms`** - Milliseconds to wait between each click. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam. Start at 100ms and adjust as needed.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 
+## Sample output
+
+```
+$ python AwakenedSpam.py
+======= START OF PROGRAM ========
+[!] Right click an ORB OF ALTERATION, hold SHIFT, hover over the target item, then press HOME to start.
+Keep holding down SHIFT after starting. Releasing it will EXIT the program immediately.
+Or press ESC to exit now.
+Waiting...
+[!] Started. To EXIT early let go of SHIFT!
+Mode: alt
+Safety limit: 100 attempts
+Interval: 100 ms
+Fill prefix: True
+Fill suffix: True
+Result   0: Regex: "life" Item Name: Runner's Vaal Greaves of the Ice
+Result   1: Regex: "life" Item Name: Vaal Greaves of the Ice
+Result   2: Regex: "life" Item Name: Lacquered Vaal Greaves of the Ice (filled prefix)
+Result   3: Regex: "life" Item Name: Lobstered Vaal Greaves
+Result   4: Regex: "life" Item Name: Lobstered Vaal Greaves of the Gods (filled suffix)
+Result   5: Regex: "life" Item Name: Healthy Vaal Greaves of Youth
+[!] Match found! Exiting.
+```
+
 ## Tips
 
-- **Adjust `interval_ms`** if you're missing clicks or getting kicked for spam.
-  - Higher latency = increase interval.
-  - Start at 100ms and adjust as needed.
+- **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
+  - The interval should at least be higher than the latency to the server realm.
 - **Use a visible overlay** (e.g., always-on-top PowerShell window or a 2nd monitor) to monitor progress.
-- **Test regex patterns** before large rolling sessions.
-- **Check Craft of Exile** to understand your odds of certain mods (and adjust `safety_limit` appropriately).
+- **Test regex patterns** before large rolling sessions. Remember this is Python regex, which may be different from PoE regex. I recommend [regex101.com](https://regex101.com/) to test.
+- **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately).
 - **Start with a low `safety_limit`** to test configuration.
 
 ## Legal & Ethical Use
