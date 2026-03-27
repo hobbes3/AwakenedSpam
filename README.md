@@ -1,6 +1,6 @@
 # Awakened Spam
 
-A lightweight, automated Python script for efficiently rolling items with alteration or alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. This was originally was going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to _VVeiVVang_ for the original inspiration!
+A lightweight, automated Python script for efficiently rolling items with alteration or alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. This was originally going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to that author, _VVeiVVang_, for the original inspiration!
 
 ## Overview
 
@@ -17,11 +17,11 @@ Awakened Spam automates the alteration orb rolling process by:
 
 ✨ **Automatic item capture** - Reads directly from clipboard  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
-✨ **Safety limit** - Prevents accidental overspending of orbs  
-✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately  
+✨ **Safety limit** - Prevents accidental overspending of orbs   
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **No GUI required** - Lightweight console-based interface  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
+✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately 
 ✨ **Adjustable interval** - Adjustable interval for server latency compensation
 
 ## Requirements
