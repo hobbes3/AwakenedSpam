@@ -2,6 +2,12 @@
 
 A lightweight, automated Python script for efficiently rolling items with alteration or alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. This was originally going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to that author, _VVeiVVang_, for the original inspiration!
 
+## Screenshot
+
+<img width="828" height="562" alt="image" src="https://github.com/user-attachments/assets/d0e6c094-5aed-429d-b82b-c2db9273f8d9" />
+
+_Screenshot may not be from the latest version_
+
 ## Overview
 
 Awakened Spam automates the alteration orb rolling process by:
@@ -21,7 +27,7 @@ Awakened Spam automates the alteration orb rolling process by:
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **No GUI required** - Lightweight console-based interface  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
-✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately 
+✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately  
 ✨ **Adjustable interval** - Adjustable interval for server latency compensation
 
 ## Requirements
@@ -142,36 +148,6 @@ safety_limit = 100
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
 - **`interval_ms`** - Milliseconds to wait between each click. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam. Start at 100ms and adjust as needed.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
-
-## Sample output
-
-```
-$ python AwakenedSpam.py
-======= START OF PROGRAM ========
-[!] Right click an ORB OF ALTERATION, hold SHIFT, hover over the target item, then press HOME to start.
-Keep holding down SHIFT after starting. Releasing it will EXIT the program immediately.
-Or press ESC to exit now.
-Waiting...
-[!] Started. To EXIT early let go of SHIFT!
-Mode: alt
-Safety limit: 100 attempts
-Interval: 100 ms
-Fill prefix: False
-Fill suffix: True
-[21:11:50.860] Result   0: Regex: "chaos res" Item Name: Studded Vaal Greaves of the Kiln
-[21:11:51.122] Result   1: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of the Starfish
-[21:11:51.382] Result   2: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of Raiding
-[21:11:51.644] Result   3: Regex: "chaos res" Item Name: Ribbed Vaal Greaves of the Troll
-[21:11:51.902] Result   4: Regex: "chaos res" Item Name: Oyster's Vaal Greaves
-[21:11:52.366] Result   5: Regex: "chaos res" Item Name: Oyster's Vaal Greaves of the Yeti (filled suffix)
-[21:11:52.634] Result   6: Regex: "chaos res" Item Name: Sanguine Vaal Greaves of the Salamander
-[21:11:52.893] Result   7: Regex: "chaos res" Item Name: Vaal Greaves of Thick Skin
-[21:11:53.152] Result   8: Regex: "chaos res" Item Name: Healthy Vaal Greaves of the Worthy
-[21:11:53.409] Result   9: Regex: "chaos res" Item Name: Vaal Greaves of the Leviathan
-[21:11:53.668] Result  10: Regex: "chaos res" Item Name: Sprinter's Vaal Greaves of the Lost
-[!] Match found! Exiting.
-Took 0m 02s.
-```
 
 ## Questions
 - Why do I have to hold `Shift` while the script is running? Why can't I afk?
