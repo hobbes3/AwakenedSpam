@@ -9,5 +9,6 @@ dependencies = [
     "pyautogui>=0.9.54",
     "pynput>=1.8.1",
     "pyperclip>=1.11.0",
+    "rich>=14.3.3",
     "toml>=0.10.2",
 ]

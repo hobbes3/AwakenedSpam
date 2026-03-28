@@ -1,10 +1,11 @@
 [base]
 mode = "alt"
-regex = "chaos res"
+regex = "more attack"
+#regex = "melee stun|per 10 str"
 
 [alt]
-fill_prefix = false 
-fill_suffix = true 
+fill_prefix = true 
+fill_suffix = false 
 
 [alch]
 # Intentionally empty
@@ -12,4 +13,4 @@ fill_suffix = true
 [advanced]
 hotkey = "home"
 interval_ms = 100
-safety_limit = 100 
+safety_limit = 2000

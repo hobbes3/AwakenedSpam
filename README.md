@@ -23,7 +23,7 @@ Awakened Spam automates the alteration orb rolling process by:
 
 ✨ **Automatic item capture** - Reads directly from clipboard  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
-✨ **Safety limit** - Prevents accidental overspending of orbs   
+✨ **Safety limit** - Prevents accidental overspending of orbs  
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **No GUI required** - Lightweight console-based interface  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
@@ -63,7 +63,7 @@ uv sync
 
 ## Usage
 
-### 1. Configure your settings in `config.toml` (see [Configuration](#configuration) section below)
+### 1. Rename `config.toml.default` to `config.toml` and configure your settings in `config.toml` (see [Configuration](#configuration) section below)
 
 ### 2. Launch the script
 
@@ -73,9 +73,7 @@ python AwakenedSpam.py
 
 ### 3. In-game workflow
 
-Don't forget to configure `config.toml` before starting the script!
-
-Once the script is running:
+Once the script is running and waiting for the hotkey to start:
 
 1. Switch to your Path of Exile window.
 2. Open your crafting panel (inventory, currency tab, etc).
@@ -150,13 +148,14 @@ safety_limit = 100
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 
 ## Questions
+
 - Why do I have to hold `Shift` while the script is running? Why can't I afk?
   - I tried to use the `keyboard` package to continue holding down `Shift`, but I couldn't get it to work. Maybe it needs a lower level control for direct driver communication. I'll be happy to look at any pull requests.
-- Will this work on the harvest horticraft station? 
+- Will this work on the harvest horticraft station?
   - No, since the mouse will have to move to click the "Craft" button, then back to the item to copy the item. But definitely possible. I can work on this as a future update.
 - Will I get banned for using this?
-  - I'm not sure. This project is for educational purposes. Use at your own risk. 
-  
+  - I'm not sure. This project is for educational purposes. Use at your own risk.
+
 ## Tips
 
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.

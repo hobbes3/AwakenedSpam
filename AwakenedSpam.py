@@ -6,6 +6,7 @@ import time
 import re
 import os
 from datetime import datetime
+from rich import print
 
 with open('config.toml', 'r') as f:
     config = toml.load(f)
@@ -33,15 +34,7 @@ def start_clicking():
 
     interval_sec = INTERVAL_MS / 1000.0
     print(f"[!] Started. To EXIT early let go of SHIFT!")
-    print(f"Mode: {MODE}")
-    print(f"Safety limit: {SAFETY_LIMIT} attempts")
-    print(f"Interval: {INTERVAL_MS} ms")
 
-    if MODE == "alt":
-        print(f"Fill prefix: {ALT_FILL_PREFIX}")
-        print(f"Fill suffix: {ALT_FILL_SUFFIX}")
-
-    # 0.1s buffer to clear the trigger keys from the OS buffer.
     time.sleep(0.1)
 
     attempt_width = len(str(SAFETY_LIMIT))
@@ -62,7 +55,7 @@ def start_clicking():
         if re.search(REGEX, raw_text, re.IGNORECASE):
             print("[!] Match found! Exiting.")
             print(elapsed_time(start_time))
-            os._exit(0)
+            exit()
 
         has_prefix = bool(re.search("Prefix", raw_text)) 
         has_suffix = bool(re.search("Suffix", raw_text)) 
@@ -85,6 +78,7 @@ def start_clicking():
             pyautogui.keyDown('alt')
             pyautogui.click()
             pyautogui.keyUp('alt')
+            time.sleep(0.05)
             pyautogui.click()
 
         # Check for shift-release every 10ms during the interval.
@@ -93,23 +87,35 @@ def start_clicking():
             if not keyboard.is_pressed('shift'):
                 print("[!] Shift released during wait. Exiting.")
                 print(elapsed_time(start_time))
-                os._exit(0)
+                exit()
             time.sleep(0.01)
 
     print("[!] Safety limit reached. Exiting.")
     print(elapsed_time(start_time))
-    os._exit(0)
+    exit()
 
 def pre_start_exit():
     print(f"[!] {EXIT_KEY.upper()} pressed. Exiting.")
+    exit()
+
+def exit():
+    keyboard.unhook_all()
     os._exit(0)
 
 if MODE not in ("alt", "alch"):
     print("Invalid mode in toml file. Exiting.")
-    os._exit(0)
+    exit()
 
 orb_name = "Orb of Alteration" if MODE == "alt" else "Orb of Alchemy"
 print("======= START OF PROGRAM ========")
+print(f"Mode: [blue]{MODE}[/blue]")
+print(f"Regex: \"{REGEX}\"")
+print(f"Safety limit: {SAFETY_LIMIT} attempts")
+print(f"Interval: {INTERVAL_MS} ms")
+if MODE == "alt":
+    print(f"Fill prefix: {ALT_FILL_PREFIX}")
+    print(f"Fill suffix: {ALT_FILL_SUFFIX}")
+
 print(f"[!] Right click an {orb_name.upper()}, hold SHIFT, hover over the target item, then press {HOTKEY.upper()} to start.")
 print(f"Keep holding down SHIFT after starting. Releasing it will EXIT the program immediately.")
 print(f"Or press {EXIT_KEY.upper()} to exit now.")
