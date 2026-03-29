@@ -13,7 +13,7 @@ _Screenshot may not be from the latest version_
 
 Awakened Spam automates the orb rolling process by:
 
-- Automatically capturing advanced item tooltips with `Ctrl+Alt+C`
+- Automatically capturing advanced item tooltips with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>
 - Matching the item against a user-defined regex pattern
 - Auto-clicking to reroll if no match is found
 - Keep count of rolling attempts
@@ -28,7 +28,7 @@ Awakened Spam automates the orb rolling process by:
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
 ✨ **Safety limit** - Prevents accidental overspending of orbs  
-✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately  
+✨ **Easy exiting hotkey** - Let go of <kbd>Shift</kbd> to stop the script immediately  
 ✨ **Adjustable interval** - Adjustable interval for server latency compensation
 
 ## Requirements
@@ -81,11 +81,11 @@ Once the script is running and waiting for the hotkey to start:
 1. Switch to your Path of Exile window.
 2. Open your crafting panel (inventory, currency tab, etc).
 3. Make sure your target item is already in an appropriate state, ie magic for alteration or rare/normal for alchemy.
-4. Hold down `SHIFT`.
-5. `RIGHT CLICK` the appropriate crafting orb (depending on what you set in `mode`).
+4. Hold down <kbd>Shift</kbd>.
+5. <kbd>Right click</kbd> the appropriate crafting orb (depending on what you set in `mode`).
 6. Hover over your target item.
-7. Press `HOME` while keep holding down `SHIFT`. Don't move your mouse off the target item.
-8. Let go of `SHIFT` to stop the script immediately.
+7. Press <kbd>Home</kbd> while keep holding down <kbd>Shift</kbd>. Don't move your mouse off the target item.
+8. Let go of <kbd>Shift</kbd> to stop the script immediately.
 
 ## Configuration
 
@@ -143,7 +143,7 @@ Fine-tune performance and hotkeys.
 [advanced]
 hotkey = "home"
 interval_ms = 100
-safety_limit = 100
+safety_limit = 50
 ```
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
@@ -152,8 +152,8 @@ safety_limit = 100
 
 ## Questions
 
-- Why do I have to hold `Shift` while the script is running? Why can't I afk?
-  - I tried to use the `keyboard` package to continue holding down `Shift`, but I couldn't get it to work. Maybe it needs a lower level control for direct driver communication. I'll be happy to look at any pull requests.
+- Why do I have to hold <kbd>Shift</kbd> while the script is running? Why can't I afk?
+  - I tried to use the `keyboard` package to continue holding down <kbd>Shift</kbd>, but I couldn't get it to work. Maybe it needs a lower level control for direct driver communication. I'll be happy to look at any pull requests.
 - Will this work on the harvest horticraft station?
   - No, since the mouse will have to move to click the "Craft" button, then back to the item to copy the item. But definitely possible. I can work on this as a future update.
 - Will I get banned for using this?
