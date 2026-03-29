@@ -1,6 +1,7 @@
 # Awakened Spam
 
-A lightweight, automated Python script for efficiently rolling items with alteration or alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. This was originally going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to that author, _VVeiVVang_, for the original inspiration!
+A lightweight, automated Python script for efficiently rolling items with <img width="22" height="22" alt="Orb_of_Alteration_inventory_icon" src="https://github.com/user-attachments/assets/ffa8af68-1394-4ae7-b0d1-c99ef8be211c" />
+alteration orbs or <img width="22" height="22" alt="Orb_of_Alchemy_inventory_icon" src="https://github.com/user-attachments/assets/fefeb38c-9071-4397-8849-be4e53a81242" /> alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods.
 
 ## Screenshot
 
@@ -10,23 +11,23 @@ _Screenshot may not be from the latest version_
 
 ## Overview
 
-Awakened Spam automates the alteration orb rolling process by:
+Awakened Spam automates the orb rolling process by:
 
 - Automatically capturing advanced item tooltips with `Ctrl+Alt+C`
-- Extracting and parsing the item name
 - Matching the item against a user-defined regex pattern
 - Auto-clicking to reroll if no match is found
 - Keep count of rolling attempts
-- Stopping instantly when a match is found or safety limit is reached
+- Stopping instantly on user input, when match is found, or safety limit is reached
 
 ## Features
 
-✨ **Automatic item capture** - Reads directly from clipboard  
+✨ **Lightweight** - No installation required (aside from Python), doesn't modify any settings or create files outside of its directory  
+✨ **No GUI required** - Console-based interface  
+✨ **Automatic item capture** - Reads directly from clipboard (not your screen)  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
-✨ **Safety limit** - Prevents accidental overspending of orbs  
 ✨ **Configurable** - All settings in `config.toml`  
-✨ **No GUI required** - Lightweight console-based interface  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
+✨ **Safety limit** - Prevents accidental overspending of orbs  
 ✨ **Easy exiting hotkey** - Let go of `Shift` to stop the script immediately  
 ✨ **Adjustable interval** - Adjustable interval for server latency compensation
 
@@ -63,7 +64,7 @@ uv sync
 
 ## Usage
 
-### 1. Rename `config.toml.default` to `config.toml` and configure your settings in `config.toml` (see [Configuration](#configuration) section below)
+### 1. Rename `config.toml.default` to `config.toml` and configure your settings (see [Configuration](#configuration) section below)
 
 ### 2. Launch the script
 
@@ -172,6 +173,9 @@ This tool automates in-game actions. I created this for educational purposes. Us
 - Follow GGG's Terms of Service.
 - Use at your own risk.
 - I'm not responsible for loss of currency, items, or even accounts if banned.
+
+## Thanks
+- This was originally going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to that author, _VVeiVVang_, for the original inspiration!
 
 ## Contributing
 
