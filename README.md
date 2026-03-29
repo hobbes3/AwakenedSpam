@@ -64,7 +64,9 @@ uv sync
 
 ## Usage
 
-### 1. Rename `config.toml.default` to `config.toml` and configure your settings (see [Configuration](#configuration) section below)
+### 1. Configure the script
+
+Rename `config.toml.default` to `config.toml` and configure your settings (see [Configuration](#configuration) section below).
 
 ### 2. Launch the script
 
