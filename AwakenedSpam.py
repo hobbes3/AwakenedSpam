@@ -117,9 +117,8 @@ if MODE == "alt":
     print(f"Fill suffix: {ALT_FILL_SUFFIX}")
 
 print(f"[!] Right click an {orb_name.upper()}, hold SHIFT, hover over the target item, then press {HOTKEY.upper()} to start.")
-print(f"Keep holding down SHIFT after starting. Releasing it will EXIT the program immediately.")
-print(f"Or press {EXIT_KEY.upper()} to exit now.")
-print(f"Waiting...")
+print(f"Keep holding down SHIFT after starting. Releasing it early will exit the program immediately.")
+print(f"Waiting... Or press {EXIT_KEY.upper()} to exit.")
 
 # Set up global hotkeys
 keyboard.add_hotkey(EXIT_KEY, pre_start_exit)

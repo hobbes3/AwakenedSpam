@@ -1,7 +1,6 @@
 [base]
 mode = "alt"
-regex = "more attack"
-#regex = "melee stun|per 10 str"
+regex = "melee stun|per 10 str"
 
 [alt]
 fill_prefix = true 
@@ -13,4 +12,4 @@ fill_suffix = false
 [advanced]
 hotkey = "home"
 interval_ms = 100
-safety_limit = 2000
+safety_limit = 50
