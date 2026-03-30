@@ -8,30 +8,20 @@ import os
 from datetime import datetime
 from rich import print
 
-with open('config.toml', 'r') as f:
-    config = toml.load(f)
+def pre_start_exit():
+    print(f"[!] {EXIT_KEY.upper()} pressed. Exiting.")
+    safe_exit()
 
-MODE  = config["base"]["mode"]
-REGEX = config["base"]["regex"]
-
-HOTKEY       = config["advanced"]["hotkey"]
-SAFETY_LIMIT = config["advanced"]["safety_limit"]
-INTERVAL_MS  = config["advanced"]["interval_ms"]
-
-ALT_FILL_PREFIX = config["alt"]["fill_prefix"]
-ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
-
-EXIT_KEY = 'esc'
-
-def elapsed_time(start_time):
+def safe_exit():
     total_seconds = time.time() - start_time
     minutes = int(total_seconds // 60)
     seconds = int(total_seconds % 60)
-    return f"Took {minutes}m {seconds:02d}s."
+    print(f"Took {minutes}m {seconds:02d}s.")
+    
+    keyboard.unhook_all()
+    os._exit(0)
 
 def start_clicking():
-    start_time = time.time()
-
     interval_sec = INTERVAL_MS / 1000.0
     print(f"[!] Started. To EXIT early let go of SHIFT!")
 
@@ -54,8 +44,7 @@ def start_clicking():
         # Check for regex match.
         if re.search(REGEX, raw_text, re.IGNORECASE):
             print("[!] Match found! Exiting.")
-            print(elapsed_time(start_time))
-            exit()
+            safe_exit()
 
         has_prefix = bool(re.search("Prefix", raw_text)) 
         has_suffix = bool(re.search("Suffix", raw_text)) 
@@ -86,25 +75,32 @@ def start_clicking():
         while time.time() < end_time:
             if not keyboard.is_pressed('shift'):
                 print("[!] Shift released during wait. Exiting.")
-                print(elapsed_time(start_time))
-                exit()
+                safe_exit()
             time.sleep(0.01)
 
     print("[!] Safety limit reached. Exiting.")
-    print(elapsed_time(start_time))
-    exit()
+    safe_exit()
 
-def pre_start_exit():
-    print(f"[!] {EXIT_KEY.upper()} pressed. Exiting.")
-    exit()
+with open('config.toml', 'r') as f:
+    config = toml.load(f)
 
-def exit():
-    keyboard.unhook_all()
-    os._exit(0)
+MODE  = config["base"]["mode"]
+REGEX = config["base"]["regex"]
+
+HOTKEY       = config["advanced"]["hotkey"]
+SAFETY_LIMIT = config["advanced"]["safety_limit"]
+INTERVAL_MS  = config["advanced"]["interval_ms"]
+
+ALT_FILL_PREFIX = config["alt"]["fill_prefix"]
+ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
+
+EXIT_KEY = 'esc'
+
+start_time = time.time()
 
 if MODE not in ("alt", "alch"):
     print("Invalid mode in toml file. Exiting.")
-    exit()
+    safe_exit()
 
 orb_name = "Orb of Alteration" if MODE == "alt" else "Orb of Alchemy"
 print("======= START OF PROGRAM ========")
