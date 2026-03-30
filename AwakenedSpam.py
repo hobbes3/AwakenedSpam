@@ -5,62 +5,110 @@ import toml
 import time
 import re
 import os
+import mouse 
 from datetime import datetime
-from rich import print
+from rich.console import Console
 from rich.markup import escape
 
+# Initialize Rich console for better formatting control
+console = Console()
+
 def pre_start_exit():
-    print(f"[!] {EXIT_KEY.upper()} pressed. Exiting.")
+    console.print(f"[bold blue][!] {EXIT_KEY.upper()}[/] pressed.")
     safe_exit()
 
 def safe_exit():
-    # Calculate and display total elapsed time
+    """Unhooks keys and calculates total session time."""
+    
+    keyboard.unhook_all()
+    
     total_seconds = time.time() - start_time
     minutes = int(total_seconds // 60)
     seconds = int(total_seconds % 60)
-    print(f"\n[bold red]Exiting.[/] Took {minutes}m {seconds:02d}s.")
+    console.print(f"\n[bold red]Exiting.[/] Took {minutes}m {seconds:02d}s.")
     
-    # Unhooking prevents the program from hanging on exit
-    keyboard.unhook_all()
     os._exit(0)
 
-def start_clicking():
-    interval_sec = INTERVAL_MS / 1000.0
-    print(f"\n[bold green][!][/] Started. To EXIT early let go of [bold]SHIFT[/]!")
+def get_harvest_coords():
+    """Captures item and craft positions by listening for specific user inputs."""
 
-    time.sleep(0.1)
+    console.print("[bold yellow][!][/] Place the item in the [bold]Horticrafting Station[/] and select a craft option.")
+    console.print("Hold [bold blue]SHIFT[/] and [bold blue]CLICK[/] on the target item... (and keep holding [bold blue]SHIFT[/]).")
+    console.print(f"Waiting... Or press [bold blue]{EXIT_KEY.upper()}[/] now to exit.")
+    
+    mouse_item = None
+    while True:
+        if keyboard.is_pressed(EXIT_KEY):
+            pre_start_exit()
+
+        # Captures position only when Shift and Left Click are active
+        if keyboard.is_pressed('shift') and mouse.is_pressed('left'):
+            mouse_item = pyautogui.position()
+            break
+        time.sleep(0.01)
+    
+    console.print(f"[green]Registered item mouse position:[/] {mouse_item}")
+    time.sleep(0.1) # Prevent double-triggering
+
+    console.print("[bold yellow][!][/] Hover over the [bold]CRAFT[/] button and press [bold blue]HOME[/] (and keep holding [bold blue]SHIFT[/]).")
+    console.print(f"Waiting... Or release [bold blue]SHIFT[/] now to exit.")
+
+    mouse_craft = None
+    while not keyboard.is_pressed('home'):
+        if keyboard.is_pressed(EXIT_KEY):
+            pre_start_exit()
+
+        if not keyboard.is_pressed('shift'):
+            console.print("[bold blue][!] SHIFT[/] released.")
+            safe_exit()
+        time.sleep(0.01)
+    
+    mouse_craft = pyautogui.position()
+    console.print(f"[green]Registered CRAFT button position:[/] {mouse_craft}")
+
+    start_clicking(mouse_item, mouse_craft)
+
+def start_clicking(mouse_item=None, mouse_craft=None):
+    interval_sec = INTERVAL_MS / 1000.0
+    
+    console.print(f"\n[bold blue][!][/] Started. [red]Do not move the mouse[/]. To [bold]EXIT[/] early let go of [bold blue]SHIFT[/]!")
+    time.sleep(0.01)
 
     attempt_width = len(str(SAFETY_LIMIT))
     alt_extra_info = ""
 
     for i in range(0, SAFETY_LIMIT + 1):
+        # Move to item location if harvesting
+        if MODE == "harvest":
+            pyautogui.moveTo(mouse_item)
+            time.sleep(0.01)
+
         keyboard.press_and_release('ctrl+alt+c')
-        time.sleep(0.05)
+        time.sleep(0.01)
         
-        # FIX: Strip \r to prevent the cursor from jumping to the start of the line
+        # Strip \r to fix the 'nonet' printing bug
         raw_text = pyperclip.paste().replace('\r', '')
 
-        # Extract Item Name with safety check
-        item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR: Item name not found!" 
-
-        # High-precision timestamp
+        item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR" 
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
         
-        # Print formatted log. Using escape(REGEX) ensures square brackets don't break Rich tags.
-        print(f"[{timestamp}] [cyan]Result {str(i).rjust(attempt_width)}[/]: Regex: [yellow]\"{escape(REGEX)}\"[/] Item: [white]{item_name}[/] [magenta]{alt_extra_info}[/]")
+        # Use escape() so regex characters don't break rich formatting
+        console.print(f"[{timestamp}] [cyan]Result {str(i).rjust(attempt_width)}[/]: Regex: [yellow]\"{escape(REGEX)}\"[/] Item: [white]{item_name}[/] [magenta]{alt_extra_info}[/]")
 
-        # Check for regex match.
-        if re.search(REGEX, raw_text, re.IGNORECASE):
-            print("[bold green][!] Match found! Exiting.[/]")
+        if re.search(REGEX, raw_text, re.IGNORECASE | re.S):
+            console.print("[bold blue][!][/] [bold green]Match found![/]")
             safe_exit()
 
-        has_prefix = bool(re.search("Prefix", raw_text)) 
-        has_suffix = bool(re.search("Suffix", raw_text)) 
-
-        # Click logic based on MODE
-        if MODE == "alt":
+        # Execute clicking logic
+        if MODE == "harvest":
+            pyautogui.moveTo(mouse_craft)
+            time.sleep(0.01)
+            pyautogui.click()
+            alt_extra_info = ""
+        elif MODE == "alt":
+            has_prefix = "Prefix" in raw_text
+            has_suffix = "Suffix" in raw_text
             if (ALT_FILL_PREFIX and not has_prefix) or (ALT_FILL_SUFFIX and not has_suffix):
-                # Use an orb of augmentation via alt+click
                 with pyautogui.hold('alt'):
                     pyautogui.click()
                 alt_extra_info = "(filled prefix)" if not has_prefix else "(filled suffix)"
@@ -68,24 +116,23 @@ def start_clicking():
                 pyautogui.click()
                 alt_extra_info = ""
         else:
-            # For orb of alchemy, scour first via alt-click, then alch again
             with pyautogui.hold('alt'):
                 pyautogui.click()
-            time.sleep(0.05)
+            time.sleep(0.01)
             pyautogui.click()
 
         # Responsive wait loop
         end_time = time.time() + interval_sec
         while time.time() < end_time:
             if not keyboard.is_pressed('shift'):
-                print("\n[bold yellow][!] Shift released during wait. Exiting.[/]")
+                console.print("[bold blue][!] Shift[/] released.")
                 safe_exit()
             time.sleep(0.01)
 
-    print("[bold red][!] Safety limit reached. Exiting.[/]")
+    console.print("[bold blue][!][/] [bold red]Safety limit reached. Exiting.[/]")
     safe_exit()
 
-# Configuration Loading
+# --- Main Listener ---
 with open('config.toml', 'r') as f:
     config = toml.load(f)
 
@@ -100,24 +147,33 @@ ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
 EXIT_KEY = 'esc'
 start_time = time.time()
 
-if MODE not in ("alt", "alch"):
-    print("[bold red]Invalid mode in toml file. Exiting.[/]")
+if MODE not in ("alt", "alch", "harvest"):
+    console.print("[bold red]Invalid mode in toml file. Exiting.[/]")
     safe_exit()
 
 # Main Listener Interface
-orb_name = "Orb of Alteration" if MODE == "alt" else "Orb of Alchemy"
-print("[bold blue]======= START OF PROGRAM ========[/]")
-print(f"Mode: [blue]{MODE}[/blue] | Regex: \"[yellow]{escape(REGEX)}[/yellow]\"")
-print(f"Safety limit: {SAFETY_LIMIT} | Interval: {INTERVAL_MS} ms")
+console.print("[bold blue]======= START OF PROGRAM ========[/]")
+console.print(f"Mode: [blue]{MODE}[/] | Regex: \"{escape(REGEX)}\"")
+console.print(f"Safety limit: {SAFETY_LIMIT} | Interval: {INTERVAL_MS} ms")
 
-if MODE == "alt":
-    print(f"Fill prefix: {ALT_FILL_PREFIX} | Fill suffix: {ALT_FILL_SUFFIX}")
+if MODE in ("alt", "alch"):
+    orb_name = ""
+    if MODE == "alt":
+        orb_name = "Orb of Alteration"
+        console.print(f"Fill prefix: [blue]{ALT_FILL_PREFIX}[/] | Fill suffix: [blue]{ALT_FILL_SUFFIX}[/]")
+    else:
+        orb_name = "Orb of Alchemy"
 
-print(f"\n[!] Right click an {orb_name.upper()}, hold [bold]SHIFT[/], hover item, then press [bold]{HOTKEY.upper()}[/].")
-print(f"Waiting... Or press [bold red]{EXIT_KEY.upper()}[/] to exit.")
+    console.print(f"[bold blue][!][/] Right click an [bold blue]{orb_name.upper()}[/], hold [bold blue]SHIFT[/], hover item, then press [bold blue]{HOTKEY.upper()}[/] to start (and keep holding [bold blue]SHIFT[/]).")
+    console.print(f"Do not move the mouse during the process. Let go of [bold blue]SHIFT[/] to exit early.")
 
-# Setup hotkeys
+mouse_item, mouse_craft = None, None
+if MODE == "harvest":
+    get_harvest_coords()
+
+console.print(f"Waiting... Or press [bold blue]{EXIT_KEY.upper()}[/] now to exit.")
+
 keyboard.add_hotkey(EXIT_KEY, pre_start_exit)
-keyboard.add_hotkey(f"shift+{HOTKEY}", start_clicking)
+keyboard.add_hotkey(f"shift+{HOTKEY}", lambda: start_clicking(mouse_item, mouse_craft))
 
 keyboard.wait(EXIT_KEY)

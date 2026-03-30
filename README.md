@@ -102,7 +102,7 @@ regex = "life"
 ```
 
 - **`mode`** - Set to either `"alt"` (alteration orb) or `"alch"` (alchemy orb).
-- **`regex`** - **Case-insensitive** Python regex pattern to match item.
+- **`regex`** - Has the **case-insensitive** and **single-line** flag.
 
 **Important about regex:** This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected.
 
@@ -113,6 +113,7 @@ regex = "life"
 - `"prefix"` - Match any item that has a prefix (since the word "Prefix" will show up in the advanced item description).
 - `"melee stun|per 10 str"` - Will match either the Elder mods "Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun" OR "1% increased Spell Damage per 10 Strength".
 - `"\+([89][1-9]|[1-9][0-9]{2})\S+ to maximum Life"` - Match any life above 80%, such as "+123% to maximum Life".
+- `"Warlord's.+equal to|Conquest.+equal to.+Conquest|Conquest.+Conquest.+equal to"` - Match a Warlord helmet that has "Gain Accuracy Rating equal to your Strength" _and_ one other Warlord mod (either prefix or suffix).
 
 ### [alt] section
 
@@ -177,6 +178,7 @@ This tool automates in-game actions. I created this for educational purposes. Us
 - I'm not responsible for loss of currency, items, or even accounts if banned.
 
 ## Thanks
+
 - This was originally going to be a fork of [AwakenedAlterationSpam](https://github.com/VVeiVVang/AwakenedAlterationSpam), but I ended up rewriting the whole thing. Thanks to that author, _VVeiVVang_, for the original inspiration!
 
 ## Contributing

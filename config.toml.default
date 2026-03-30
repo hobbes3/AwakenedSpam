@@ -12,4 +12,4 @@ fill_suffix = false
 [advanced]
 hotkey = "home"
 interval_ms = 100
-safety_limit = 50
+safety_limit = 10
