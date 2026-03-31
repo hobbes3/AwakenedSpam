@@ -4,7 +4,7 @@ A lightweight, automated Python script for **Path of Exile** for efficiently rol
 
 - <img width="22" height="22" alt="Orb_of_Alteration_inventory_icon" src="https://github.com/user-attachments/assets/ffa8af68-1394-4ae7-b0d1-c99ef8be211c" /> alteration orbs
 - <img width="22" height="22" alt="Orb_of_Alchemy_inventory_icon" src="https://github.com/user-attachments/assets/fefeb38c-9071-4397-8849-be4e53a81242" /> alchemy orbs
-- <img width="22" height="22" alt="Chaos_Orb_inventory_icon" src="https://github.com/user-attachments/assets/f05d174b-159b-4107-abc0-66ec801fa2e5" /> chaos orbs (or "chaos-like" essences like screaming)
+- <img width="22" height="22" alt="Chaos_Orb_inventory_icon" src="https://github.com/user-attachments/assets/f05d174b-159b-4107-abc0-66ec801fa2e5" /> chaos orbs (or "chaos-like" currencies like screaming essences or eldritch embers)
 - <img width="22" height="22" alt="Primal_Crystallised_Lifeforce_inventory_icon" src="https://github.com/user-attachments/assets/1292a8a4-28c0-4f6a-86ad-ee7d542a9d4e" /> harvest (horticrafting station)
 
 This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. It also prevents the oh-so-common accidental rerolls and physical/mental fatigue.
