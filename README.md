@@ -127,7 +127,7 @@ regex = "life"
 
 **Important about regex:**
 
-This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected (see [Tips](#tips) section below).
+This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected (see [Tips](#tips)).
 
 Also, remember that the regex matches on the _advanced_ item description. For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
 
@@ -184,13 +184,6 @@ safety_limit = 50
 - **`interval_ms`** - Milliseconds to wait between each click. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam. Start at 100ms and adjust as needed.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 
-## Questions
-
-- Why do I have to hold <kbd>Shift</kbd> while the script is running? Why can't I afk?
-  - Originally, I tried to use the `keyboard` package to continue holding down <kbd>Shift</kbd>, but I couldn't get it to work (maybe it needs a lower level control for direct driver communication). Eventually, I realized this is a feature since it keeps the user still semi-engaged (kind of having your hands on the steering wheel during autopilot).
-- Will I get banned for using this?
-  - Maybe? I'm not sure. This project is for educational purposes. Use at your own risk.
-
 ## Tips
 
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
@@ -198,6 +191,15 @@ safety_limit = 50
 - **Use a visible overlay** (ie, always-on-top PowerShell window or a 2nd monitor) to monitor progress.
 - **Test regex patterns** before large rolling sessions. One way to double check is to find a similar item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
 - **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately). And start with a low `safety_limit` to test configuration.
+
+## Questions
+
+- Why do I have to hold <kbd>Shift</kbd> while the script is running? Why can't I afk?
+  - Originally, I tried to use the `keyboard` package to continue holding down <kbd>Shift</kbd>, but I couldn't get it to work (maybe it needs a lower level control for direct driver communication). Eventually, I realized this is a feature since it keeps the user still semi-engaged (kind of having your hands on the steering wheel during autopilot).
+- Will I get banned for using this?
+  - Maybe? I'm not sure. This project is for educational purposes. Use at your own risk.
+- My regex didn't work and I wasted 5000 alts since nothing ever matched!!!
+  - Remember, you're **NOT** searching against normal <kbd>Ctrl</kbd>-<kbd>C</kbd>. The (Python) regex is being applied to the _advanced_ item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>. For example, you may see the mod in-game as "+125 to maximum Life", but the actual text is "+125(115-129) to maximum Life". See [Tips](#tips) for testing your regex.
 
 ## Thanks
 
