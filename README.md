@@ -133,12 +133,12 @@ Also, remember that the regex matches on the _advanced_ item description. For ex
 
 **Regex Examples:**
 
-- `"speed"` - Match any item that says "speed" anywhere like "25% increased Movement Speed" or "19% increased Attack Speed".
-- `"merciless|dictator"` - Match either the mod "Merciless" or "Dictator" (for physical damage weapons).
+- `"speed"` - Match any item that says "speed" anywhere like `25% increased Movement Speed` or `19% increased Attack Speed`.
+- `"merciless|dictator"` - Match either the mod `Merciless` or `Dictator` (for physical damage weapons).
 - `"prefix"` - Match any item that has a prefix (since the word "Prefix" will show up in the advanced item description).
-- `"melee stun|per 10 str"` - Will match either the Elder mods "Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun" OR "1% increased Spell Damage per 10 Strength".
+- `"melee stun|per 10 str"` - Will match either the Elder mods `Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun` OR `1% increased Spell Damage per 10 Strength`.
 - `"\\(9-12\\)% increased str"` - Match any tier 1 Warlord amulet mod `% increased Strength` 9% to 12%. Note how the backslash has to be escaped for `config.toml`.
-- `"Warlord's.+equal to|Conquest.+equal to.+Conquest|Conquest.+Conquest.+equal to"` - Match a Warlord helmet that has "Gain Accuracy Rating equal to your Strength" _and_ one other Warlord mod (either prefix or suffix).
+- `"Warlord's.+equal to|Conquest.+equal to.+Conquest|Conquest.+Conquest.+equal to"` - Match a Warlord helmet that has `Gain Accuracy Rating equal to your Strength` _and_ one other Warlord mod (either prefix or suffix).
 
 ### [alt] section
 
@@ -146,7 +146,7 @@ Decides when to use an Orb of Augmentation to fill either an empty prefix or suf
 
 ```toml
 [alt]
-fill_prefix = true
+fill_prefix = true`
 fill_suffix = true
 ```
 
@@ -199,7 +199,7 @@ safety_limit = 50
 - Will I get banned for using this?
   - Maybe? I'm not sure. This project is for educational purposes. Use at your own risk.
 - My regex didn't work and I wasted 5000 alts since nothing ever matched!!!
-  - Remember, you're **NOT** searching against normal <kbd>Ctrl</kbd>-<kbd>C</kbd>. The (Python) regex is being applied to the _advanced_ item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>. For example, you may see the mod in-game as "+125 to maximum Life", but the actual text is "+125(115-129) to maximum Life". See [Tips](#tips) for testing your regex.
+  - Remember, you're **NOT** searching against normal <kbd>Ctrl</kbd>-<kbd>C</kbd>. The (Python) regex is being applied to the _advanced_ item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>. For example, you may see the mod in-game as `+125 to maximum Life`, but the actual text is `+125(115-129) to maximum Life`. See [Tips](#tips) for testing your regex.
 
 ## Thanks
 
