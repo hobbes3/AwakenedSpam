@@ -1,7 +1,13 @@
 # Awakened Spam
 
-A lightweight, automated Python script for efficiently rolling items with <img width="22" height="22" alt="Orb_of_Alteration_inventory_icon" src="https://github.com/user-attachments/assets/ffa8af68-1394-4ae7-b0d1-c99ef8be211c" />
-alteration orbs or <img width="22" height="22" alt="Orb_of_Alchemy_inventory_icon" src="https://github.com/user-attachments/assets/fefeb38c-9071-4397-8849-be4e53a81242" /> alchemy orbs in **Path of Exile**. This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods.
+A lightweight, automated Python script for **Path of Exile** for efficiently rolling items with
+
+- <img width="22" height="22" alt="Orb_of_Alteration_inventory_icon" src="https://github.com/user-attachments/assets/ffa8af68-1394-4ae7-b0d1-c99ef8be211c" /> alteration orbs
+- <img width="22" height="22" alt="Orb_of_Alchemy_inventory_icon" src="https://github.com/user-attachments/assets/fefeb38c-9071-4397-8849-be4e53a81242" /> alchemy orbs
+- chaos orbs (or "chaos-like" essences like screaming)
+- harvest (horticrafting station)
+
+This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. It also prevents the oh-so-common accidental rerolls and physical/mental fatigue.
 
 ## Screenshot
 
@@ -76,16 +82,23 @@ python AwakenedSpam.py
 
 ### 3. In-game workflow
 
-Once the script is running and waiting for the hotkey to start:
+Once the script is running and waiting for the hotkey to start (for `alt`, `alch`, and `chaos`):
 
 1. Switch to your Path of Exile window.
 2. Open your crafting panel (inventory, currency tab, etc).
 3. Make sure your target item is already in an appropriate state, ie magic for alteration or rare/normal for alchemy.
-4. Hold down <kbd>Shift</kbd>.
-5. <kbd>Right click</kbd> the appropriate crafting orb (depending on what you set in `mode`).
-6. Hover over your target item.
-7. Press <kbd>Home</kbd> while keep holding down <kbd>Shift</kbd>. Don't move your mouse off the target item.
-8. Let go of <kbd>Shift</kbd> to stop the script immediately.
+4. _Follow the console instruction:_ Hold down <kbd>Shift</kbd> and <kbd>Right click</kbd> the appropriate crafting orb (depending on what you set in `mode`).
+5. _Follow the console instruction:_ Hover over your target item and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse off the target item.
+6. Let go of <kbd>Shift</kbd> to stop the script immediately.
+
+For `harvest`:
+
+1. Switch to your Path of Exile window.
+2. Open the horticrafting station, place your item in the station, and select a crafting option.
+3. Make sure your target item is already in an appropriate state, ie rare for reforge.
+4. _Follow the script instruction:_ Hold down <kbd>Shift</kbd> and <kbd>Click</kbd> the target item.
+5. _Follow the script instruction:_ Hover over the `CRAFT` button and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse off the target item.
+6. Let go of <kbd>Shift</kbd> to stop the script immediately.
 
 ## Configuration
 
@@ -104,7 +117,11 @@ regex = "life"
 - **`mode`** - Set to either `"alt"` (alteration orb) or `"alch"` (alchemy orb).
 - **`regex`** - Has the **case-insensitive** and **single-line** flag.
 
-**Important about regex:** This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected.
+**Important about regex:**
+
+This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected.
+
+Also, remember that the regex matches on the _advanced_ item description. For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
 
 **Regex Examples:**
 
@@ -112,7 +129,7 @@ regex = "life"
 - `"merciless|dictator"` - Match either the mod "Merciless" or "Dictator" (for physical damage weapons).
 - `"prefix"` - Match any item that has a prefix (since the word "Prefix" will show up in the advanced item description).
 - `"melee stun|per 10 str"` - Will match either the Elder mods "Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun" OR "1% increased Spell Damage per 10 Strength".
-- `"\+([89][1-9]|[1-9][0-9]{2})\S+ to maximum Life"` - Match any life above 80%, such as "+123% to maximum Life".
+- `"\\(9-12\\)% increased str"` - Match any tier 1 Warlord amulet mod `% increased Strength` 9% to 12%. Note how the backslash has to be escaped for `config.toml`.
 - `"Warlord's.+equal to|Conquest.+equal to.+Conquest|Conquest.+Conquest.+equal to"` - Match a Warlord helmet that has "Gain Accuracy Rating equal to your Strength" _and_ one other Warlord mod (either prefix or suffix).
 
 ### [alt] section
@@ -165,9 +182,8 @@ safety_limit = 50
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
   - The interval should at least be higher than the latency to the server realm.
 - **Use a visible overlay** (e.g., always-on-top PowerShell window or a 2nd monitor) to monitor progress.
-- **Test regex patterns** before large rolling sessions. Remember this is Python regex, which may be different from PoE regex. I recommend [regex101.com](https://regex101.com/) to test.
-- **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately).
-- **Start with a low `safety_limit`** to test configuration.
+- **Test regex patterns** before large rolling sessions. One way to double check is to find an item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
+- **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately). And start with a low `safety_limit` to test configuration.
 
 ## Legal & Ethical Use
 

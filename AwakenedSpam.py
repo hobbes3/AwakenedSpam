@@ -99,12 +99,12 @@ def start_clicking(mouse_item=None, mouse_craft=None):
             console.print("[bold blue][!][/] [bold green]Match found![/]")
             safe_exit()
 
+        alt_extra_info = ""
         # Execute clicking logic
         if MODE == "harvest":
             pyautogui.moveTo(mouse_craft)
             time.sleep(0.01)
             pyautogui.click()
-            alt_extra_info = ""
         elif MODE == "alt":
             has_prefix = "Prefix" in raw_text
             has_suffix = "Suffix" in raw_text
@@ -114,11 +114,12 @@ def start_clicking(mouse_item=None, mouse_craft=None):
                 alt_extra_info = "(filled prefix)" if not has_prefix else "(filled suffix)"
             else:
                 pyautogui.click()
-                alt_extra_info = ""
-        else:
+        elif MODE == "alch":
             with pyautogui.hold('alt'):
                 pyautogui.click()
-            time.sleep(0.01)
+            time.sleep(0.05)
+            pyautogui.click()
+        else: # chaos
             pyautogui.click()
 
         # Responsive wait loop
@@ -147,7 +148,7 @@ ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
 EXIT_KEY = 'esc'
 start_time = time.time()
 
-if MODE not in ("alt", "alch", "harvest"):
+if MODE not in ("alt", "alch", "chaos", "harvest"):
     console.print("[bold red]Invalid mode in toml file. Exiting.[/]")
     safe_exit()
 
@@ -156,13 +157,15 @@ console.print("[bold blue]======= START OF PROGRAM ========[/]")
 console.print(f"Mode: [blue]{MODE}[/] | Regex: \"{escape(REGEX)}\"")
 console.print(f"Safety limit: {SAFETY_LIMIT} | Interval: {INTERVAL_MS} ms")
 
-if MODE in ("alt", "alch"):
+if MODE in ("alt", "alch", "chaos"):
     orb_name = ""
     if MODE == "alt":
         orb_name = "Orb of Alteration"
         console.print(f"Fill prefix: [blue]{ALT_FILL_PREFIX}[/] | Fill suffix: [blue]{ALT_FILL_SUFFIX}[/]")
-    else:
+    elif MODE == "alch":
         orb_name = "Orb of Alchemy"
+    else:
+        orb_name = "Chaos Orb"
 
     console.print(f"[bold blue][!][/] Right click an [bold blue]{orb_name.upper()}[/], hold [bold blue]SHIFT[/], hover item, then press [bold blue]{HOTKEY.upper()}[/] to start (and keep holding [bold blue]SHIFT[/]).")
     console.print(f"Do not move the mouse during the process. Let go of [bold blue]SHIFT[/] to exit early.")

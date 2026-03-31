@@ -9,6 +9,9 @@ fill_suffix = false
 [alch]
 # Intentionally empty
 
+[chaos]
+# Intentionally empty
+
 [advanced]
 hotkey = "home"
 interval_ms = 100
