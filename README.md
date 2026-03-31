@@ -123,11 +123,11 @@ regex = "life"
 ```
 
 - **`mode`** - Set to either `"alt"` (alteration orb) or `"alch"` (alchemy orb).
-- **`regex`** - Has the **case-insensitive** and **single-line** flag.
+- **`regex`** - Already has the **case-insensitive** and **single-line** flag.
 
 **Important about regex:**
 
-This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected.
+This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected (see [Tips](#tips) section below).
 
 Also, remember that the regex matches on the _advanced_ item description. For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
 
@@ -155,10 +155,18 @@ fill_suffix = true
 
 ### [alch] section
 
-Reserved for future alchemy orb settings (no extra setting currently available).
+Currently no settings available or needed.
 
 ```toml
 [alch]
+```
+
+### [chaos] section
+
+Currently no settings available or needed.
+
+```toml
+[chaos]
 ```
 
 ### [advanced] section
@@ -179,18 +187,16 @@ safety_limit = 50
 ## Questions
 
 - Why do I have to hold <kbd>Shift</kbd> while the script is running? Why can't I afk?
-  - I tried to use the `keyboard` package to continue holding down <kbd>Shift</kbd>, but I couldn't get it to work. Maybe it needs a lower level control for direct driver communication. I'll be happy to look at any pull requests.
-- Will this work on the harvest horticraft station?
-  - No, since the mouse will have to move to click the "Craft" button, then back to the item to copy the item. But definitely possible. I can work on this as a future update.
+  - Originally, I tried to use the `keyboard` package to continue holding down <kbd>Shift</kbd>, but I couldn't get it to work (maybe it needs a lower level control for direct driver communication). Eventually, I realized this is a feature since it keeps the user still semi-engaged (kind of having your hands on the steering wheel during autopilot).
 - Will I get banned for using this?
-  - I'm not sure. This project is for educational purposes. Use at your own risk.
+  - Maybe? I'm not sure. This project is for educational purposes. Use at your own risk.
 
 ## Tips
 
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
   - The interval should at least be higher than the latency to the server realm.
-- **Use a visible overlay** (e.g., always-on-top PowerShell window or a 2nd monitor) to monitor progress.
-- **Test regex patterns** before large rolling sessions. One way to double check is to find an item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
+- **Use a visible overlay** (ie, always-on-top PowerShell window or a 2nd monitor) to monitor progress.
+- **Test regex patterns** before large rolling sessions. One way to double check is to find a similar item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
 - **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately). And start with a low `safety_limit` to test configuration.
 
 ## Thanks
