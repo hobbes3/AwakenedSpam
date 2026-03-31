@@ -19,9 +19,10 @@ This tool automates _mutiple in-game actions per input_. I created this for educ
 
 ## Screenshot
 
-<img width="828" height="562" alt="image" src="https://github.com/user-attachments/assets/d0e6c094-5aed-429d-b82b-c2db9273f8d9" />
+<img width="806" height="735" alt="Screenshot 2026-03-31 211820" src="https://github.com/user-attachments/assets/2ff77acf-1c54-43cc-8aef-12db2d662d82" />
 
 _Screenshot may not be from the latest version_
+
 
 ## Overview
 
