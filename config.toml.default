@@ -6,13 +6,8 @@ regex = "melee stun|per 10 str"
 fill_prefix = true 
 fill_suffix = false 
 
-[alch]
-# Intentionally empty
-
-[chaos]
-# Intentionally empty
-
 [advanced]
 hotkey = "home"
-interval_ms = 100
+reroll_interval_ms = 100
+action_interval_ms = 50
 safety_limit = 10

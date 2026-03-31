@@ -153,35 +153,20 @@ fill_suffix = true
 - **`fill_prefix`** - Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
 - **`fill_suffix`** - Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
 
-### [alch] section
-
-Currently no settings available or needed.
-
-```toml
-[alch]
-```
-
-### [chaos] section
-
-Currently no settings available or needed.
-
-```toml
-[chaos]
-```
-
 ### [advanced] section
 
 Fine-tune performance and hotkeys.
 
 ```toml
-[advanced]
 hotkey = "home"
-interval_ms = 100
-safety_limit = 50
+reroll_interval_ms = 100
+action_interval_ms = 50
+safety_limit = 10
 ```
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
-- **`interval_ms`** - Milliseconds to wait between each click. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam. Start at 100ms and adjust as needed.
+- **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
+- **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 
 ## Tips

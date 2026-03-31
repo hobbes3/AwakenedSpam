@@ -69,10 +69,10 @@ def get_harvest_coords():
     start_clicking(mouse_item, mouse_craft)
 
 def start_clicking(mouse_item=None, mouse_craft=None):
-    interval_sec = INTERVAL_MS / 1000.0
+    interval_sec = REROLL_INTERVAL_MS / 1000.0
+    action_sec = ACTION_INTERVAL_MS / 1000.0
     
     console.print(f"\n[bold blue][!][/] Started. [red]Do not move the mouse[/]. To [bold]EXIT[/] early let go of [bold blue]SHIFT[/]!")
-    time.sleep(0.01)
 
     attempt_width = len(str(SAFETY_LIMIT))
     alt_extra_info = ""
@@ -81,10 +81,10 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         # Move to item location if harvesting
         if MODE == "harvest":
             pyautogui.moveTo(mouse_item)
-            time.sleep(0.01)
+            time.sleep(action_sec)
 
         keyboard.press_and_release('ctrl+alt+c')
-        time.sleep(0.01)
+        time.sleep(action_sec)
         
         # Strip \r to fix the 'nonet' printing bug
         raw_text = pyperclip.paste().replace('\r', '')
@@ -103,21 +103,25 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         # Execute clicking logic
         if MODE == "harvest":
             pyautogui.moveTo(mouse_craft)
-            time.sleep(0.01)
+            time.sleep(action_sec)
             pyautogui.click()
         elif MODE == "alt":
             has_prefix = "Prefix" in raw_text
             has_suffix = "Suffix" in raw_text
             if (ALT_FILL_PREFIX and not has_prefix) or (ALT_FILL_SUFFIX and not has_suffix):
-                with pyautogui.hold('alt'):
-                    pyautogui.click()
+                pyautogui.keyDown('alt')
+                pyautogui.click()
+                pyautogui.keyUp('alt')
                 alt_extra_info = "(filled prefix)" if not has_prefix else "(filled suffix)"
             else:
                 pyautogui.click()
         elif MODE == "alch":
-            with pyautogui.hold('alt'):
-                pyautogui.click()
-            time.sleep(0.05)
+            #with pyautogui.hold('alt'):
+            #    pyautogui.click()
+            pyautogui.keyDown('alt')
+            pyautogui.click()
+            pyautogui.keyUp('alt')
+            time.sleep(action_sec)
             pyautogui.click()
         else: # chaos
             pyautogui.click()
@@ -152,11 +156,14 @@ except Exception as e:
 
 MODE  = config["base"]["mode"]
 REGEX = config["base"]["regex"]
-HOTKEY       = config["advanced"]["hotkey"]
-SAFETY_LIMIT = config["advanced"]["safety_limit"]
-INTERVAL_MS  = config["advanced"]["interval_ms"]
+
 ALT_FILL_PREFIX = config["alt"]["fill_prefix"]
 ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
+
+HOTKEY              = config["advanced"]["hotkey"]
+REROLL_INTERVAL_MS  = config["advanced"]["reroll_interval_ms"]
+ACTION_INTERVAL_MS  = config["advanced"]["action_interval_ms"]
+SAFETY_LIMIT        = config["advanced"]["safety_limit"]
 
 EXIT_KEY = 'esc'
 
@@ -167,7 +174,7 @@ if MODE not in ("alt", "alch", "chaos", "harvest"):
 # Main Listener Interface
 console.print("[bold blue]======= START OF PROGRAM ========[/]")
 console.print(f"Mode: [blue]{MODE}[/] | Regex: \"{escape(REGEX)}\"")
-console.print(f"Safety limit: {SAFETY_LIMIT} | Interval: {INTERVAL_MS} ms")
+console.print(f"Safety limit: {SAFETY_LIMIT} | Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
 
 if MODE in ("alt", "alch", "chaos"):
     orb_name = ""
