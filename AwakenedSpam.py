@@ -134,8 +134,21 @@ def start_clicking(mouse_item=None, mouse_craft=None):
     safe_exit()
 
 # --- Main Listener ---
-with open('config.toml', 'r') as f:
-    config = toml.load(f)
+
+start_time = time.time()
+
+try:
+    with open('config.toml', 'r') as f:
+        config = toml.load(f)
+except FileNotFoundError:
+    console.print("[bold red]Error:[/] 'config.toml' not found in the script directory.")
+    safe_exit()
+except toml.TomlDecodeError as e:
+    console.print(f"[bold red]Error:[/] Invalid TOML syntax in 'config.toml':\n[yellow]{e}[/]")
+    safe_exit()
+except Exception as e:
+    console.print(f"[bold red]An unexpected error occurred while reading config:[/] {e}")
+    safe_exit()
 
 MODE  = config["base"]["mode"]
 REGEX = config["base"]["regex"]
@@ -146,7 +159,6 @@ ALT_FILL_PREFIX = config["alt"]["fill_prefix"]
 ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
 
 EXIT_KEY = 'esc'
-start_time = time.time()
 
 if MODE not in ("alt", "alch", "chaos", "harvest"):
     console.print("[bold red]Invalid mode in toml file. Exiting.[/]")
