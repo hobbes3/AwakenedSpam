@@ -9,6 +9,14 @@ A lightweight, automated Python script for **Path of Exile** for efficiently rol
 
 This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. It also prevents the oh-so-common accidental rerolls and physical/mental fatigue.
 
+## Legal & Ethical Use
+
+This tool automates _mutiple in-game actions per input_. I created this for educational purposes, ie mostly using AI coding. Use responsibly:
+
+- Follow GGG's Terms of Service.
+- Use at your own risk.
+- I'm not responsible for loss of currency, items, or even accounts if banned.
+
 ## Screenshot
 
 <img width="828" height="562" alt="image" src="https://github.com/user-attachments/assets/d0e6c094-5aed-429d-b82b-c2db9273f8d9" />
@@ -184,14 +192,6 @@ safety_limit = 50
 - **Use a visible overlay** (e.g., always-on-top PowerShell window or a 2nd monitor) to monitor progress.
 - **Test regex patterns** before large rolling sessions. One way to double check is to find an item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
 - **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately). And start with a low `safety_limit` to test configuration.
-
-## Legal & Ethical Use
-
-This tool automates in-game actions. I created this for educational purposes. Use responsibly:
-
-- Follow GGG's Terms of Service.
-- Use at your own risk.
-- I'm not responsible for loss of currency, items, or even accounts if banned.
 
 ## Thanks
 
