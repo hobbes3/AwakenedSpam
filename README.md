@@ -23,7 +23,6 @@ This tool automates _mutiple in-game actions per input_. I created this for educ
 
 _Screenshot may not be from the latest version_
 
-
 ## Overview
 
 Awakened Spam automates the orb rolling process by:
@@ -143,16 +142,16 @@ Also, remember that the regex matches on the _advanced_ item description. For ex
 
 ### [alt] section
 
-Decides when to use an Orb of Augmentation to fill either an empty prefix or suffix. This saves alteration cost when the regex can only match on a prefix or suffix (or both).
+Decides if to use an Orb of Augmentation to fill either an empty prefix or suffix. This saves alteration cost when the regex can only match on a particular affix.
 
 ```toml
 [alt]
-fill_prefix = true`
-fill_suffix = true
+aug_prefix = true`
+aug_suffix = true
 ```
 
-- **`fill_prefix`** - Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
-- **`fill_suffix`** - Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
+- **`aug_prefix`** - Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
+- **`aug_suffix`** - Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
 
 ### [advanced] section
 

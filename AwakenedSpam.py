@@ -108,11 +108,11 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         elif MODE == "alt":
             has_prefix = "Prefix" in raw_text
             has_suffix = "Suffix" in raw_text
-            if (ALT_FILL_PREFIX and not has_prefix) or (ALT_FILL_SUFFIX and not has_suffix):
+            if (ALT_AUG_PREFIX and not has_prefix) or (ALT_AUG_SUFFIX and not has_suffix):
                 pyautogui.keyDown('alt')
                 pyautogui.click()
                 pyautogui.keyUp('alt')
-                alt_extra_info = "(filled prefix)" if not has_prefix else "(filled suffix)"
+                alt_extra_info = "(augmented prefix)" if not has_prefix else "(augmented suffix)"
             else:
                 pyautogui.click()
         elif MODE == "alch":
@@ -157,8 +157,8 @@ except Exception as e:
 MODE  = config["base"]["mode"]
 REGEX = config["base"]["regex"]
 
-ALT_FILL_PREFIX = config["alt"]["fill_prefix"]
-ALT_FILL_SUFFIX = config["alt"]["fill_suffix"]
+ALT_AUG_PREFIX = config["alt"]["aug_prefix"]
+ALT_AUG_SUFFIX = config["alt"]["aug_suffix"]
 
 HOTKEY              = config["advanced"]["hotkey"]
 REROLL_INTERVAL_MS  = config["advanced"]["reroll_interval_ms"]
@@ -180,7 +180,7 @@ if MODE in ("alt", "alch", "chaos"):
     orb_name = ""
     if MODE == "alt":
         orb_name = "Orb of Alteration"
-        console.print(f"Fill prefix: [blue]{ALT_FILL_PREFIX}[/] | Fill suffix: [blue]{ALT_FILL_SUFFIX}[/]")
+        console.print(f"Augment prefix: [blue]{ALT_AUG_PREFIX}[/] | Augment suffix: [blue]{ALT_AUG_SUFFIX}[/]")
     elif MODE == "alch":
         orb_name = "Orb of Alchemy"
     else:

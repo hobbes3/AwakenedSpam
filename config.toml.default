@@ -3,8 +3,8 @@ mode = "alt"
 regex = "melee stun|per 10 str"
 
 [alt]
-fill_prefix = true 
-fill_suffix = false 
+aug_prefix = true 
+aug_suffix = false 
 
 [advanced]
 hotkey = "home"
