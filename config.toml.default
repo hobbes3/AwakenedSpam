@@ -8,6 +8,7 @@ aug_suffix = false
 
 [advanced]
 hotkey = "home"
+same_item_name_limit = 5
 reroll_interval_ms = 100
 action_interval_ms = 50
 safety_limit = 10

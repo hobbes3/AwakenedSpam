@@ -159,12 +159,14 @@ Fine-tune performance and hotkeys.
 
 ```toml
 hotkey = "home"
+same_item_name_limit = 5
 reroll_interval_ms = 100
 action_interval_ms = 50
 safety_limit = 10
 ```
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
+- **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually means the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
 - **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
 - **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).

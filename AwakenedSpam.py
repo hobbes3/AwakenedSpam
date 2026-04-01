@@ -76,6 +76,8 @@ def start_clicking(mouse_item=None, mouse_craft=None):
 
     attempt_width = len(str(SAFETY_LIMIT))
     alt_extra_info = ""
+    previous_item_name = ""
+    same_item_count = 0
 
     for i in range(0, SAFETY_LIMIT + 1):
         # Move to item location if harvesting
@@ -90,6 +92,15 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         raw_text = pyperclip.paste().replace('\r', '')
 
         item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR" 
+        if item_name == previous_item_name:
+            same_item_count += 1
+        else:
+            same_item_count = 0
+        if same_item_count >= SAME_ITEM_NAME_LIMIT:
+            console.print(f"[bold blue][!][/] [bold red]Detected {same_item_count} consecutive items with the same name.[/]")
+            safe_exit()
+        previous_item_name = item_name
+
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
         
         # Use escape() so regex characters don't break rich formatting
@@ -160,10 +171,11 @@ REGEX = config["base"]["regex"]
 ALT_AUG_PREFIX = config["alt"]["aug_prefix"]
 ALT_AUG_SUFFIX = config["alt"]["aug_suffix"]
 
-HOTKEY              = config["advanced"]["hotkey"]
-REROLL_INTERVAL_MS  = config["advanced"]["reroll_interval_ms"]
-ACTION_INTERVAL_MS  = config["advanced"]["action_interval_ms"]
-SAFETY_LIMIT        = config["advanced"]["safety_limit"]
+HOTKEY               = config["advanced"]["hotkey"]
+SAME_ITEM_NAME_LIMIT = config["advanced"]["same_item_name_limit"]
+REROLL_INTERVAL_MS   = config["advanced"]["reroll_interval_ms"]
+ACTION_INTERVAL_MS   = config["advanced"]["action_interval_ms"]
+SAFETY_LIMIT         = config["advanced"]["safety_limit"]
 
 EXIT_KEY = 'esc'
 
@@ -174,7 +186,8 @@ if MODE not in ("alt", "alch", "chaos", "harvest"):
 # Main Listener Interface
 console.print("[bold blue]======= START OF PROGRAM ========[/]")
 console.print(f"Mode: [blue]{MODE}[/] | Regex: \"{escape(REGEX)}\"")
-console.print(f"Safety limit: {SAFETY_LIMIT} | Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
+console.print(f"Safety limit: {SAFETY_LIMIT} | Same item name limit: {SAME_ITEM_NAME_LIMIT}")
+console.print(f"Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
 
 if MODE in ("alt", "alch", "chaos"):
     orb_name = ""
