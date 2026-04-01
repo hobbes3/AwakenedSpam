@@ -125,7 +125,7 @@ regex = "life"
 - **`mode`** - Set to either `"alt"` (alteration orb) or `"alch"` (alchemy orb).
 - **`regex`** - Already has the **case-insensitive** and **single-line** flag.
 
-**Important about regex:**
+⚠️ **Important about regex:**
 
 This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected (see [Tips](#tips)).
 
