@@ -39,7 +39,7 @@ Awakened Spam automates the orb rolling process by:
 ✨ **No GUI required** - Console-based interface  
 ✨ **Automatic item capture** - Reads directly from clipboard (not your screen)  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
-✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods
+✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods   
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
 ✨ **Safety limit** - Prevents accidental overspending of orbs  
@@ -165,7 +165,7 @@ regex_min_count = 1
 Match any item that has a prefix (since the word `Prefix` will show up in the advanced item description).
 
 ```toml
-regex = ["\\(9-12\\)% increased str"`]
+regex = ["\\(9-12\\)% increased str"]
 regex_min_count = 1
 ```
 
