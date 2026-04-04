@@ -4,7 +4,7 @@ import pyperclip
 import toml
 import time
 import re
-import os
+import sys
 import mouse 
 from datetime import datetime
 from rich.console import Console
@@ -18,8 +18,7 @@ def pre_start_exit():
     safe_exit()
 
 def safe_exit():
-    """Unhooks keys and calculates total session time."""
-    
+    global running
     keyboard.unhook_all()
     
     total_seconds = time.time() - start_time
@@ -27,7 +26,17 @@ def safe_exit():
     seconds = int(total_seconds % 60)
     console.print(f"\n[bold red]Exiting.[/] Took {minutes}m {seconds:02d}s.")
     
-    os._exit(0)
+    running = False
+    sys.exit()
+
+def regex_string(regex, matched_array=[]):
+    formatted_regex = []
+    for i, r in enumerate(regex):
+        if i in matched_array:
+            formatted_regex.append(f"[green]{escape(r)}[/]")
+        else:
+            formatted_regex.append(f"[red]{escape(r)}[/]")
+    return "[white] • [/]".join(formatted_regex)
 
 def get_harvest_coords():
     """Captures item and craft positions by listening for specific user inputs."""
@@ -40,6 +49,7 @@ def get_harvest_coords():
     while True:
         if keyboard.is_pressed(EXIT_KEY):
             pre_start_exit()
+            return None, None
 
         # Captures position only when Shift and Left Click are active
         if keyboard.is_pressed('shift') and mouse.is_pressed('left'):
@@ -57,10 +67,13 @@ def get_harvest_coords():
     while not keyboard.is_pressed('home'):
         if keyboard.is_pressed(EXIT_KEY):
             pre_start_exit()
+            return None, None
 
         if not keyboard.is_pressed('shift'):
             console.print("[bold blue][!] SHIFT[/] released.")
             safe_exit()
+            return None, None
+
         time.sleep(0.01)
     
     mouse_craft = pyautogui.position()
@@ -75,21 +88,26 @@ def start_clicking(mouse_item=None, mouse_craft=None):
     console.print(f"\n[bold blue][!][/] Started. [red]Do not move the mouse[/]. To [bold]EXIT[/] early let go of [bold blue]SHIFT[/]!")
 
     attempt_width = len(str(SAFETY_LIMIT))
-    alt_extra_info = ""
     previous_item_name = ""
     same_item_count = 0
 
     for i in range(0, SAFETY_LIMIT + 1):
+        extra_info = ""
         # Move to item location if harvesting
         if MODE == "harvest":
             pyautogui.moveTo(mouse_item)
             time.sleep(action_sec)
-
+        
         keyboard.press_and_release('ctrl+alt+c')
         time.sleep(action_sec)
         
         # Strip \r to fix the 'nonet' printing bug
         raw_text = pyperclip.paste().replace('\r', '')
+
+        matched_regex = []
+        for j, regex in enumerate(REGEX):
+            if re.search(regex, raw_text, re.IGNORECASE | re.S):
+                matched_regex.append(j)
 
         item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR" 
         if item_name == previous_item_name:
@@ -99,36 +117,47 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         if same_item_count >= SAME_ITEM_NAME_LIMIT:
             console.print(f"[bold blue][!][/] [bold red]Detected {same_item_count} consecutive items with the same name.[/]")
             safe_exit()
+            return
         previous_item_name = item_name
 
+        has_prefix = None
+        has_suffix = None
+        augment = False
+        if MODE == "alt":
+            has_prefix = "Prefix" in raw_text
+            has_suffix = "Suffix" in raw_text
+            if (ALT_AUG_PREFIX and not has_prefix) or (ALT_AUG_SUFFIX and not has_suffix):
+                augment = True
+                extra_info = f"- [yellow]augmenting...[/]"
+
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        console.print((
+            f"[{timestamp}] [cyan]Result {str(i).rjust(attempt_width)}[/] - "
+            f"Regex match: {len(matched_regex)}/{REGEX_MIN_COUNT} "
+            f"- {regex_string(REGEX, matched_regex)} "
+            f"- Item: [white]{item_name}[/] "
+            f"[magenta]{extra_info}[/]"
+        ),
+        highlight=False)
         
-        # Use escape() so regex characters don't break rich formatting
-        console.print(f"[{timestamp}] [cyan]Result {str(i).rjust(attempt_width)}[/]: Regex: [yellow]\"{escape(REGEX)}\"[/] Item: [white]{item_name}[/] [magenta]{alt_extra_info}[/]")
-
-        if re.search(REGEX, raw_text, re.IGNORECASE | re.S):
-            console.print("[bold blue][!][/] [bold green]Match found![/]")
+        if len(matched_regex) >= REGEX_MIN_COUNT:       
+            console.print(f"[bold blue][!][/] [bold green]Minimum match of {REGEX_MIN_COUNT} reached![/]")
             safe_exit()
+            return
 
-        alt_extra_info = ""
         # Execute clicking logic
         if MODE == "harvest":
             pyautogui.moveTo(mouse_craft)
             time.sleep(action_sec)
             pyautogui.click()
         elif MODE == "alt":
-            has_prefix = "Prefix" in raw_text
-            has_suffix = "Suffix" in raw_text
-            if (ALT_AUG_PREFIX and not has_prefix) or (ALT_AUG_SUFFIX and not has_suffix):
+            if augment:
                 pyautogui.keyDown('alt')
                 pyautogui.click()
                 pyautogui.keyUp('alt')
-                alt_extra_info = "(augmented prefix)" if not has_prefix else "(augmented suffix)"
             else:
                 pyautogui.click()
         elif MODE == "alch":
-            #with pyautogui.hold('alt'):
-            #    pyautogui.click()
             pyautogui.keyDown('alt')
             pyautogui.click()
             pyautogui.keyUp('alt')
@@ -143,13 +172,14 @@ def start_clicking(mouse_item=None, mouse_craft=None):
             if not keyboard.is_pressed('shift'):
                 console.print("[bold blue][!] Shift[/] released.")
                 safe_exit()
+                return
             time.sleep(0.01)
 
     console.print("[bold blue][!][/] [bold red]Safety limit reached. Exiting.[/]")
     safe_exit()
 
 # --- Main Listener ---
-
+running = True
 start_time = time.time()
 
 try:
@@ -167,6 +197,7 @@ except Exception as e:
 
 MODE  = config["base"]["mode"]
 REGEX = config["base"]["regex"]
+REGEX_MIN_COUNT = config["base"]["regex_min_count"]
 
 ALT_AUG_PREFIX = config["alt"]["aug_prefix"]
 ALT_AUG_SUFFIX = config["alt"]["aug_suffix"]
@@ -185,7 +216,9 @@ if MODE not in ("alt", "alch", "chaos", "harvest"):
 
 # Main Listener Interface
 console.print("[bold blue]======= START OF PROGRAM ========[/]")
-console.print(f"Mode: [blue]{MODE}[/] | Regex: \"{escape(REGEX)}\"")
+console.print(f"Mode: [blue]{MODE}[/]")
+console.print(f"Regex: {regex_string(REGEX)}", highlight=False)
+console.print(f"Regex minimum count: {REGEX_MIN_COUNT}")
 console.print(f"Safety limit: {SAFETY_LIMIT} | Same item name limit: {SAME_ITEM_NAME_LIMIT}")
 console.print(f"Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
 
@@ -208,7 +241,9 @@ if MODE == "harvest":
 
 console.print(f"Waiting... Or press [bold blue]{EXIT_KEY.upper()}[/] now to exit.")
 
-keyboard.add_hotkey(EXIT_KEY, pre_start_exit)
 keyboard.add_hotkey(f"shift+{HOTKEY}", lambda: start_clicking(mouse_item, mouse_craft))
 
-keyboard.wait(EXIT_KEY)
+while running:
+    if keyboard.is_pressed(EXIT_KEY):
+        safe_exit()
+    time.sleep(0.1)

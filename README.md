@@ -7,7 +7,7 @@ A lightweight, automated Python script for **Path of Exile** for efficiently rol
 - <img width="22" height="22" alt="Chaos_Orb_inventory_icon" src="https://github.com/user-attachments/assets/f05d174b-159b-4107-abc0-66ec801fa2e5" /> chaos orbs (or "chaos-like" currencies like screaming essences or eldritch embers)
 - <img width="22" height="22" alt="Primal_Crystallised_Lifeforce_inventory_icon" src="https://github.com/user-attachments/assets/1292a8a4-28c0-4f6a-86ad-ee7d542a9d4e" /> harvest (horticrafting station)
 
-This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. It also prevents the oh-so-common accidental rerolls and physical/mental fatigue.
+This script streamlines the tedious process of checking item affixes and rerolling until you find the desired mods. It also prevents the oh-so-common accidental rerolls and physical/mental fatigue. Lastly, this script can leverage multiple Python regex against the advanced item description, aka <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>.
 
 ## Legal & Ethical Use
 
@@ -28,7 +28,7 @@ _Screenshot may not be from the latest version_
 Awakened Spam automates the orb rolling process by:
 
 - Automatically capturing advanced item tooltips with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>
-- Matching the item against a user-defined regex pattern
+- Matching the item against a set of user-defined regex pattern
 - Auto-clicking to reroll if no match is found
 - Keep count of rolling attempts
 - Stopping instantly on user input, when match is found, or safety limit is reached
@@ -39,6 +39,7 @@ Awakened Spam automates the orb rolling process by:
 ✨ **No GUI required** - Console-based interface  
 ✨ **Automatic item capture** - Reads directly from clipboard (not your screen)  
 ✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
+✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
 ✨ **Safety limit** - Prevents accidental overspending of orbs  
@@ -119,11 +120,13 @@ Controls the core rolling behavior and item matching.
 ```toml
 [base]
 mode = "alt"
-regex = "life"
+regex = ["life", "speed"]
+regex_min_count = 1
 ```
 
-- **`mode`** - Set to either `"alt"` (alteration orb) or `"alch"` (alchemy orb).
-- **`regex`** - Already has the **case-insensitive** and **single-line** flag.
+- **`mode`** - Set to either `"alt"` (alteration orb), `"alch"` (alchemy orb), `"chaos"` (chaos orb), or `"harvest"` (horticrafting station).
+- **`regex`** - A list of regex strings. The regex already has the **case-insensitive** and **single-line** flag.
+- **`regex_min_count`** - The minimum number of regex that the item must match. For example, `regex_min_count = 3` means at least 3 of the supplied regex must match.
 
 ⚠️ **Important about regex:**
 
@@ -133,16 +136,51 @@ Also, remember that the regex matches on the _advanced_ item description. For ex
 
 **Regex Examples:**
 
-- `"speed"` - Match any item that says "speed" anywhere like `25% increased Movement Speed` or `19% increased Attack Speed`.
-- `"merciless|dictator"` - Match either the mod `Merciless` or `Dictator` (for physical damage weapons).
-- `"prefix"` - Match any item that has a prefix (since the word "Prefix" will show up in the advanced item description).
-- `"melee stun|per 10 str"` - Will match either the Elder mods `Socketed Gems are Supported by Level 10 Endurance Charge on Melee Stun` OR `1% increased Spell Damage per 10 Strength`.
-- `"\\(9-12\\)% increased str"` - Match any tier 1 Warlord amulet mod `% increased Strength` 9% to 12%. Note how the backslash has to be escaped for `config.toml`.
-- `"Warlord's.+equal to|Conquest.+equal to.+Conquest|Conquest.+Conquest.+equal to"` - Match a Warlord helmet that has `Gain Accuracy Rating equal to your Strength` _and_ one other Warlord mod (either prefix or suffix).
+```toml
+regex = ["speed"]
+regex_min_count = 1
+```
+
+Match any item that says "speed" anywhere like `25% increased Movement Speed` or `19% increased Attack Speed`.
+
+```toml
+regex = ["merciless", "dictator"]
+regex_min_count = 1
+```
+
+Match either the mod `Merciless` or `Dictator` (for physical damage weapons).
+
+```toml
+regex = ["merciless|dictator"]
+regex_min_count = 1
+```
+
+Same as above, but using regex's OR expression `|`.
+
+```toml
+regex = ["prefix"]
+regex_min_count = 1
+```
+
+Match any item that has a prefix (since the word `Prefix` will show up in the advanced item description).
+
+```toml
+regex = ["\\(9-12\\)% increased str"`]
+regex_min_count = 1
+```
+
+Match only on tier 1 Warlord amulet mod `% increased Strength`, which is from 9% to 12%. Note how the backslash has to be escaped inside the double quotes.
+
+```toml
+regex = ["equal to", "conquest.+conquest", "warlord's"]
+regex_min_count = 2
+```
+
+Match a Warlord helmet that has `Gain Accuracy Rating equal to your Strength` _and_ any other Warlord mod (either prefix or suffix). Note that `conquest` in the regex is repeated twice since the `Gain Accuracy...` mod is already `of the Conquest` suffix. This is useful for elevating a mod using an orb of dominance.
 
 ### [alt] section
 
-Decides if to use an Orb of Augmentation to fill either an empty prefix or suffix. This saves alteration cost when the regex can only match on a particular affix.
+Decides if to use an augmentaton orb to fill either an empty prefix or suffix. This saves alteration cost when the regex can only match on a particular affix.
 
 ```toml
 [alt]
