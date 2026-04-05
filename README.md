@@ -19,7 +19,7 @@ This tool automates _mutiple in-game actions per input_. I created this for educ
 
 ## Screenshot
 
-<img width="806" height="735" alt="Screenshot 2026-03-31 211820" src="https://github.com/user-attachments/assets/2ff77acf-1c54-43cc-8aef-12db2d662d82" />
+<img width="796" height="431" alt="AwakenedSpamSS" src="https://github.com/user-attachments/assets/3b03f1ec-d5be-441a-bc20-b6e23513df7e" />
 
 _Screenshot may not be from the latest version_
 
