@@ -106,7 +106,7 @@ For `harvest`:
 2. Open the horticrafting station, place your item in the station, and select a crafting option.
 3. Make sure your target item is already in an appropriate state, ie rare for reforge.
 4. _Follow the script instruction:_ Hold down <kbd>Shift</kbd> and <kbd>Click</kbd> the target item.
-5. _Follow the script instruction:_ Hover over the `CRAFT` button and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse off the target item.
+5. _Follow the script instruction:_ Hover over the `CRAFT` button and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse when the script is running. 
 6. Let go of <kbd>Shift</kbd> to stop the script immediately.
 
 ## Configuration
@@ -155,7 +155,7 @@ regex = ["merciless|dictator"]
 regex_min_count = 1
 ```
 
-Same as above, but using regex's OR expression `|`.
+Same as above, but using regex's OR expression `|` instead.
 
 ```toml
 regex = ["prefix"]
@@ -184,7 +184,7 @@ Decides if to use an augmentaton orb to fill either an empty prefix or suffix. T
 
 ```toml
 [alt]
-aug_prefix = true`
+aug_prefix = true
 aug_suffix = true
 ```
 
