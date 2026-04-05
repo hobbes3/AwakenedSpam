@@ -11,7 +11,7 @@ This script streamlines the tedious process of checking item affixes and rerolli
 
 ## Legal & Ethical Use
 
-This tool automates _mutiple in-game actions per input_. I created this for educational purposes, ie mostly using AI coding. Use responsibly:
+This tool automates _mutiple in-game actions per input_. I created this for educational purposes, ie mostly testing out AI coding. Use responsibly:
 
 - Follow GGG's Terms of Service.
 - Use at your own risk.
@@ -38,7 +38,7 @@ Awakened Spam automates the orb rolling process by:
 ✨ **Lightweight** - No installation required (aside from Python), doesn't modify any settings or create files outside of its directory  
 ✨ **No GUI required** - Console-based interface  
 ✨ **Automatic item capture** - Reads directly from clipboard (not your screen)  
-✨ **Regex pattern matching** - Uses the powerful (Python) regex patterns (similar to PoE's stash search using double-quotes)  
+✨ **Regex pattern matching** - Uses the powerful Python `regex` library patterns (not the default `re`)  
 ✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods   
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
@@ -81,7 +81,7 @@ uv sync
 
 ### 1. Configure the script
 
-Rename `config.toml.default` to `config.toml` and configure your settings (see [Configuration](#configuration) section below).
+Copy `config.toml.default` to `config.toml` and configure your settings (see [Configuration](#configuration) section below).
 
 ### 2. Launch the script
 
@@ -97,7 +97,7 @@ Once the script is running and waiting for the hotkey to start (for `alt`, `alch
 2. Open your crafting panel (inventory, currency tab, etc).
 3. Make sure your target item is already in an appropriate state, ie magic for alteration or rare/normal for alchemy.
 4. _Follow the console instruction:_ Hold down <kbd>Shift</kbd> and <kbd>Right click</kbd> the appropriate crafting orb (depending on what you set in `mode`).
-5. _Follow the console instruction:_ Hover over your target item and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse off the target item.
+5. _Follow the console instruction:_ Hover over your target item and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse while the script is running.
 6. Let go of <kbd>Shift</kbd> to stop the script immediately.
 
 For `harvest`:
@@ -197,17 +197,17 @@ Fine-tune performance and hotkeys.
 
 ```toml
 hotkey = "home"
+safety_limit = 10
 same_item_name_limit = 5
 reroll_interval_ms = 100
 action_interval_ms = 50
-safety_limit = 10
 ```
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
+- **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 - **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually means the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
 - **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
 - **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
-- **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
 
 ## Tips
 
