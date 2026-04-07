@@ -132,7 +132,7 @@ regex_min_count = 1
 
 This uses Python regex, which _may not_ be exactly the same as PoE's regex search. Test your patterns at [regex101.com](https://regex101.com) to ensure they work as expected (see [Tips](#tips)).
 
-Also, remember that the regex matches on the _advanced_ item description. For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
+Also, remember that the regex matches on the _advanced_ item description by default (see `advanced_item_description` in the [[advanced] section](#advanced-section) below). For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
 
 **Regex Examples:**
 
@@ -208,7 +208,7 @@ item_descripton = "advanced"
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
-- **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually means the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
+- **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually happens if you're lagging or if the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
 - **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
 - **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
 - **`advanced_item_description`** - Either `true` or `false`. If you want to search against the advanced item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd> vs simple <kbd>Ctrl</kbd>-<kbd>C</kbd> (for simpler regex).
