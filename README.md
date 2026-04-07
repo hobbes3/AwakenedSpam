@@ -38,8 +38,8 @@ Awakened Spam automates the orb rolling process by:
 ✨ **Lightweight** - No installation required (aside from Python), doesn't modify any settings or create files outside of its directory  
 ✨ **No GUI required** - Console-based interface  
 ✨ **Automatic item capture** - Reads directly from clipboard (not your screen)  
-✨ **Regex pattern matching** - Uses the powerful Python `regex` library patterns (not the default `re`)  
-✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods   
+✨ **Regex pattern matching** - Uses the powerful Python `regex` library patterns (not the usual `re` library)  
+✨ **Multiple regex** - Allows a set of regex and a minimum count to match multiple mods  
 ✨ **Configurable** - All settings in `config.toml`  
 ✨ **Hotkey controlled** - Start with customizable hotkeys  
 ✨ **Safety limit** - Prevents accidental overspending of orbs  
@@ -106,7 +106,7 @@ For `harvest`:
 2. Open the horticrafting station, place your item in the station, and select a crafting option.
 3. Make sure your target item is already in an appropriate state, ie rare for reforge.
 4. _Follow the script instruction:_ Hold down <kbd>Shift</kbd> and <kbd>Click</kbd> the target item.
-5. _Follow the script instruction:_ Hover over the `CRAFT` button and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse when the script is running. 
+5. _Follow the script instruction:_ Hover over the `CRAFT` button and press <kbd>Home</kbd> while still holding <kbd>Shift</kbd>. Don't move your mouse when the script is running.
 6. Let go of <kbd>Shift</kbd> to stop the script immediately.
 
 ## Configuration
@@ -135,6 +135,8 @@ This uses Python regex, which _may not_ be exactly the same as PoE's regex searc
 Also, remember that the regex matches on the _advanced_ item description. For example, the raw text doesn't say `11% increased Strength`, it actually says `11(9-12)% increased Strength`.
 
 **Regex Examples:**
+
+All examples against `advanced_item_description = true` in `config.toml`.
 
 ```toml
 regex = ["speed"]
@@ -201,6 +203,7 @@ safety_limit = 10
 same_item_name_limit = 5
 reroll_interval_ms = 100
 action_interval_ms = 50
+item_descripton = "advanced"
 ```
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
@@ -208,6 +211,7 @@ action_interval_ms = 50
 - **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually means the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
 - **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
 - **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
+- **`advanced_item_description`** - Either `true` or `false`. If you want to search against the advanced item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd> vs simple <kbd>Ctrl</kbd>-<kbd>C</kbd> (for simpler regex).
 
 ## Tips
 

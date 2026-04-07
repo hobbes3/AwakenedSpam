@@ -12,6 +12,7 @@ pyperclip==1.11.0
 pyrect==0.2.0
 pyscreeze==1.0.1
 pytweening==1.2.0
+regex==2026.4.4
 rich==14.3.3
 six==1.17.0
 toml==0.10.2

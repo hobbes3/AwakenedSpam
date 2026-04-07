@@ -3,7 +3,7 @@ import pyautogui
 import pyperclip
 import toml
 import time
-import re
+import regex
 import sys
 import mouse 
 from datetime import datetime
@@ -98,18 +98,21 @@ def start_clicking(mouse_item=None, mouse_craft=None):
             pyautogui.moveTo(mouse_item)
             time.sleep(action_sec)
         
-        keyboard.press_and_release('ctrl+alt+c')
+        if ADVANCED_ITEM_DESCRIPTION:
+            keyboard.press_and_release('ctrl+alt+c')
+        else:
+            keyboard.press_and_release('ctrl+c')
         time.sleep(action_sec)
         
         # Strip \r to fix the 'nonet' printing bug
         raw_text = pyperclip.paste().replace('\r', '')
 
         matched_regex = []
-        for j, regex in enumerate(REGEX):
-            if re.search(regex, raw_text, re.IGNORECASE | re.S):
+        for j, r in enumerate(REGEX):
+            if regex.search(r, raw_text, flags=regex.IGNORECASE | regex.DOTALL):
                 matched_regex.append(j)
 
-        item_name = m.group(1).strip() if (m := re.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR" 
+        item_name = m.group(1).strip() if (m := regex.search(r"Rarity:.+\n(.+)", raw_text)) else "ERROR" 
         if item_name == previous_item_name:
             same_item_count += 1
         else:
@@ -202,16 +205,17 @@ REGEX_MIN_COUNT = config["base"]["regex_min_count"]
 ALT_AUG_PREFIX = config["alt"]["aug_prefix"]
 ALT_AUG_SUFFIX = config["alt"]["aug_suffix"]
 
-HOTKEY               = config["advanced"]["hotkey"]
-SAME_ITEM_NAME_LIMIT = config["advanced"]["same_item_name_limit"]
-REROLL_INTERVAL_MS   = config["advanced"]["reroll_interval_ms"]
-ACTION_INTERVAL_MS   = config["advanced"]["action_interval_ms"]
-SAFETY_LIMIT         = config["advanced"]["safety_limit"]
+HOTKEY                    = config["advanced"]["hotkey"]
+SAFETY_LIMIT              = config["advanced"]["safety_limit"]
+SAME_ITEM_NAME_LIMIT      = config["advanced"]["same_item_name_limit"]
+REROLL_INTERVAL_MS        = config["advanced"]["reroll_interval_ms"]
+ACTION_INTERVAL_MS        = config["advanced"]["action_interval_ms"]
+ADVANCED_ITEM_DESCRIPTION = config["advanced"]["advanced_item_description"]
 
 EXIT_KEY = 'esc'
 
 if MODE not in ("alt", "alch", "chaos", "harvest"):
-    console.print("[bold red]Invalid mode in toml file. Exiting.[/]")
+    console.print("[bold red]Invalid \"mode\" in config.toml.[/]")
     safe_exit()
 
 # Main Listener Interface
@@ -221,6 +225,7 @@ console.print(f"Regex: {regex_string(REGEX)}", highlight=False)
 console.print(f"Regex minimum count: {REGEX_MIN_COUNT}")
 console.print(f"Safety limit: {SAFETY_LIMIT} | Same item name limit: {SAME_ITEM_NAME_LIMIT}")
 console.print(f"Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
+
 
 if MODE in ("alt", "alch", "chaos"):
     orb_name = ""
@@ -236,7 +241,7 @@ if MODE in ("alt", "alch", "chaos"):
     console.print(f"Do not move the mouse during the process. Let go of [bold blue]SHIFT[/] to exit early.")
 
 mouse_item, mouse_craft = None, None
-if MODE == "harvest":
+if MODE in ("harvest"):
     get_harvest_coords()
 
 console.print(f"Waiting... Or press [bold blue]{EXIT_KEY.upper()}[/] now to exit.")
