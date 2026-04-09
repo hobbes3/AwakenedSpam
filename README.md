@@ -119,14 +119,15 @@ Controls the core rolling behavior and item matching.
 
 ```toml
 [base]
-mode = "alt"
-regex = ["life", "speed"]
-regex_min_count = 1
+spam = { mode="alt", count=1, regex=["life", "speed"], aug_prefix=true }
 ```
 
-- **`mode`** - Set to either `"alt"` (alteration orb), `"alch"` (alchemy orb), `"chaos"` (chaos orb), or `"harvest"` (horticrafting station).
-- **`regex`** - A list of regex strings. The regex already has the **case-insensitive** and **single-line** flag.
-- **`regex_min_count`** - The minimum number of regex that the item must match. For example, `regex_min_count = 3` means at least 3 of the supplied regex must match.
+- **`spam`** - A one-line rule that defines the spamming session.
+  - **`mode`** - Set to either `"alt"` (alteration orb), `"alch"` (alchemy orb), `"chaos"` (chaos orb), or `"harvest"` (horticrafting station).
+  - **`count`** (_optional_ defaults to `1`) - The minimum number of regex that the item must match. For example, `count=3` means at least 3 of the supplied regex must match.
+  - **`regex`** - A list of regex strings. The regex already has the **case-insensitive** (`c`) and **single-line** (`s`) flag.
+  - **`aug_prefix`** (_optional_ defaults to `false`) - For `mode="alt"`: Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
+  - **`aug_suffix`** (_optional_ defaults to `false`) - For `mode="alt"`: Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
 
 ⚠️ **Important about regex:**
 
@@ -139,59 +140,97 @@ Also, remember that the regex matches on the _advanced_ item description by defa
 All examples against `advanced_item_description = true` in `config.toml`.
 
 ```toml
-regex = ["speed"]
-regex_min_count = 1
+spam = { mode="alch", regex=["speed"] }
 ```
 
 Match any item that says "speed" anywhere like `25% increased Movement Speed` or `19% increased Attack Speed`.
 
 ```toml
-regex = ["merciless", "dictator"]
-regex_min_count = 1
+spam = { mode="alt", regex=["merciless", "dictator"], aug_prefix=true }
 ```
 
-Match either the mod `Merciless` or `Dictator` (for physical damage weapons).
+Match either the mod `Merciless` or `Dictator` (for physical damage weapons). Since those two mods only rolls on prefix, we set `aug_prefix=true` to save alterations orbs.
 
 ```toml
-regex = ["merciless|dictator"]
-regex_min_count = 1
+spam = { mode="alt", regex=["merciless|dictator"], aug_prefix=true }
 ```
 
 Same as above, but using regex's OR expression `|` instead.
 
 ```toml
-regex = ["prefix"]
-regex_min_count = 1
+spam = { mode="chaos", regex=["prefix"] }
 ```
 
 Match any item that has a prefix (since the word `Prefix` will show up in the advanced item description).
 
 ```toml
-regex = ["\\(9-12\\)% increased str"]
-regex_min_count = 1
+spam = { mode="alt", regex=["\\(9-12\\)% increased str"], aug_suffix=true}
 ```
 
-Match only on tier 1 Warlord amulet mod `% increased Strength`, which is from 9% to 12%. Note how the backslash has to be escaped inside the double quotes.
+Match only on tier 1 Warlord amulet mod `% increased Strength`, which is from 9% to 12%. Note how the backslash has to be escaped inside the double quotes. Also, this mod only appears as a suffix.
 
 ```toml
-regex = ["equal to", "conquest.+conquest", "warlord's"]
-regex_min_count = 2
+spam = { mode="alch", count=2, regex=["equal to", "conquest.+conquest", "warlord's"] }
 ```
 
 Match a Warlord helmet that has `Gain Accuracy Rating equal to your Strength` _and_ any other Warlord mod (either prefix or suffix). Note that `conquest` in the regex is repeated twice since the `Gain Accuracy...` mod is already `of the Conquest` suffix. This is useful for elevating a mod using an orb of dominance.
 
-### [alt] section
+### An example of an advanced item description:
 
-Decides if to use an augmentaton orb to fill either an empty prefix or suffix. This saves alteration cost when the regex can only match on a particular affix.
-
-```toml
-[alt]
-aug_prefix = true
-aug_suffix = true
 ```
-
-- **`aug_prefix`** - Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
-- **`aug_suffix`** - Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
+Item Class: Wands
+Rarity: Rare
+Phoenix Edge
+Synthesised Kinetic Wand
+--------
+Wand
+Quality: +30% (augmented)
+Physical Damage: 29-54
+Elemental Damage: 21-344 (augmented)
+Critical Strike Chance: 11.22% (augmented)
+Attacks per Second: 1.90 (augmented)
+Memory Strands: 78
+--------
+Requirements:
+Level: 72
+Str: 155
+Dex: 100
+Int: 188
+--------
+Sockets: W-W-W
+--------
+Item Level: 84
+--------
+Quality does not increase Physical Damage (enchant)
+1% increased Critical Strike Chance per 4% Quality (enchant)
+--------
+{ Implicit Modifier — Damage, Caster }
+1% increased Spell Damage per 16 Strength
+{ Implicit Modifier — Damage, Elemental, Fire, Attack }
+Adds 2(1-2) to 4(3-4) Fire Damage to Attacks with this Weapon per 10 Strength
+{ Implicit Modifier — Damage, Critical }
++30(27-30)% to Global Critical Strike Multiplier
+--------
+{ Prefix Modifier "Runic" (Tier: 1) — Damage, Caster }
+109(100-109)% increased Spell Damage
+{ Prefix Modifier "Vapourising" (Tier: 1) — Damage, Elemental, Lightning, Attack }
+Adds 21(15-21) to 344(296-344) Lightning Damage
+{ Prefix Modifier "Chosen" (Tier: 1) — Damage, Chaos, Attack }
+Attacks with this Weapon Penetrate 16(14-16)% Chaos Resistance
+{ Suffix Modifier "of Acclaim" (Tier: 1) — Attack, Speed }
+19(17-19)% increased Attack Speed
+{ Suffix Modifier "of Destruction" (Tier: 1) — Damage, Critical }
++38(35-38)% to Global Critical Strike Multiplier
+{ Master Crafted Suffix Modifier "of Craft" — Attack, Critical, Attribute }
++24(20-24) to Strength and Intelligence
+25(21-25)% increased Critical Strike Chance
+--------
+Mirrored
+--------
+Split
+--------
+Synthesised Item
+```
 
 ### [advanced] section
 
@@ -208,7 +247,7 @@ item_descripton = "advanced"
 
 - **`hotkey`** - Hotkey to start the automation by holding Shift and pressing this key. Some good examples include `"="`, `"end"`, `"backspace"`, `"pageup"`, `"pagedown"`. **Avoid** keys that PoE uses like `"p"`, which opens the passive skill tree and close your crafting window.
 - **`safety_limit`** - Maximum number of roll attempts before automatically exiting (prevents accidental overspending).
-- **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. This usually happens if you're lagging or if the currency is invalid for the target item, ie trying to alch a magic/blue item. This could also happen when alt spamming influenced bases, but it's highly unlikely to happen that many times in a row, ie `Shaper's Lathi of Shaping`.
+- **`same_item_name_limit`** - If the same item name is detected 5 times in a row, then the program will exit. The main idea is to stop the program when you run out of the rolling currency. It could also happen if you're lagging or when alt spamming influenced bases (highly unlikely), ie `Shaper's Lathi of Shaping`.
 - **`reroll_interval_ms`** - Milliseconds to wait between each reroll. Depends on your latency to the PoE server. Setting too low may cause missed clicks or server kicks for spam.
 - **`action_interval_ms`** - Milliseconds to wait between each action. Each reroll has several actions, such as pressing <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd>, holding <kbd>Alt</kbd>, and <kbd>Clicking</kbd>. Setting this too low also may cause missed clicks or server kicks.
 - **`advanced_item_description`** - Either `true` or `false`. If you want to search against the advanced item description <kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>C</kbd> vs simple <kbd>Ctrl</kbd>-<kbd>C</kbd> (for simpler regex).

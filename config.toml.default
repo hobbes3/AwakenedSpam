@@ -1,11 +1,5 @@
 [base]
-mode = "alt"
-regex = ["melee stun", "per 10 str"]
-regex_min_count = 1
-
-[alt]
-aug_prefix = true 
-aug_suffix = false 
+spam = { mode="alt", regex=["melee stun", "per 10 str"], aug_prefix=true }
 
 [advanced]
 safety_limit = 10

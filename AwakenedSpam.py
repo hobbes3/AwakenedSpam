@@ -136,15 +136,15 @@ def start_clicking(mouse_item=None, mouse_craft=None):
         timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
         console.print((
             f"[{timestamp}] [cyan]Result {str(i).rjust(attempt_width)}[/] - "
-            f"Regex match: {len(matched_regex)}/{REGEX_MIN_COUNT} "
+            f"Regex match: {len(matched_regex)}/{REGEX_COUNT} "
             f"- {regex_string(REGEX, matched_regex)} "
             f"- Item: [white]{item_name}[/] "
             f"[magenta]{extra_info}[/]"
         ),
         highlight=False)
         
-        if len(matched_regex) >= REGEX_MIN_COUNT:       
-            console.print(f"[bold blue][!][/] [bold green]Minimum match of {REGEX_MIN_COUNT} reached![/]")
+        if len(matched_regex) >= REGEX_COUNT:       
+            console.print(f"[bold blue][!][/] [bold green]Minimum match of {REGEX_COUNT} reached![/]")
             safe_exit()
             return
 
@@ -198,12 +198,12 @@ except Exception as e:
     console.print(f"[bold red]An unexpected error occurred while reading config:[/] {e}")
     safe_exit()
 
-MODE  = config["base"]["mode"]
-REGEX = config["base"]["regex"]
-REGEX_MIN_COUNT = config["base"]["regex_min_count"]
+MODE        = config["spam"]["mode"]
+REGEX_COUNT = config["spam"].get("count", 1)
+REGEX       = config["spam"]["regex"]
 
-ALT_AUG_PREFIX = config["alt"]["aug_prefix"]
-ALT_AUG_SUFFIX = config["alt"]["aug_suffix"]
+ALT_AUG_PREFIX = config["spam"].get("aug_prefix", False)
+ALT_AUG_SUFFIX = config["spam"].get("aug_suffix", False)
 
 HOTKEY                    = config["advanced"]["hotkey"]
 SAFETY_LIMIT              = config["advanced"]["safety_limit"]
@@ -222,22 +222,21 @@ if MODE not in ("alt", "alch", "chaos", "harvest"):
 console.print("[bold blue]======= START OF PROGRAM ========[/]")
 console.print(f"Mode: [blue]{MODE}[/]")
 console.print(f"Regex: {regex_string(REGEX)}", highlight=False)
-console.print(f"Regex minimum count: {REGEX_MIN_COUNT}")
+console.print(f"Regex minimum count: {REGEX_COUNT}")
+if MODE == "alt":
+    console.print(f"Augment prefix: [blue]{ALT_AUG_PREFIX}[/] | Augment suffix: [blue]{ALT_AUG_SUFFIX}[/]")
 console.print(f"Safety limit: {SAFETY_LIMIT} | Same item name limit: {SAME_ITEM_NAME_LIMIT}")
 console.print(f"Reroll interval: {REROLL_INTERVAL_MS} ms | Action_interval: {ACTION_INTERVAL_MS} ms")
 
-
 if MODE in ("alt", "alch", "chaos"):
-    orb_name = ""
     if MODE == "alt":
-        orb_name = "Orb of Alteration"
-        console.print(f"Augment prefix: [blue]{ALT_AUG_PREFIX}[/] | Augment suffix: [blue]{ALT_AUG_SUFFIX}[/]")
+        orb_name = "an ORB OF ALTERATION"
     elif MODE == "alch":
-        orb_name = "Orb of Alchemy"
+        orb_name = "an ORB OF ALCHEMY"
     else:
-        orb_name = "Chaos Orb"
+        orb_name = "a CHAOS ORB"
 
-    console.print(f"[bold blue][!][/] Right click an [bold blue]{orb_name.upper()}[/], hold [bold blue]SHIFT[/], hover item, then press [bold blue]{HOTKEY.upper()}[/] to start (and keep holding [bold blue]SHIFT[/]).")
+    console.print(f"[bold blue][!][/] Right click [bold blue]{orb_name}[/], hold [bold blue]SHIFT[/], hover item, then press [bold blue]{HOTKEY.upper()}[/] to start (and keep holding [bold blue]SHIFT[/]).")
     console.print(f"Do not move the mouse during the process. Let go of [bold blue]SHIFT[/] to exit early.")
 
 mouse_item, mouse_craft = None, None
