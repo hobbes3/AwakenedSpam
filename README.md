@@ -127,7 +127,7 @@ spam = { mode="alt", count=1, regex=["life", "speed"], aug_prefix=true }
   - **`count`** (_optional_ defaults to `1`) - The minimum number of regex that the item must match. For example, `count=3` means at least 3 of the supplied regex must match.
   - **`regex`** - A list of regex strings. The regex already has the **case-insensitive** (`c`) and **single-line** (`s`) flag.
   - **`aug_prefix`** (_optional_ defaults to `false`) - For `mode="alt"`: Use augmentation orbs to fill empty prefix slots (set to `true` or `false`).
-  - **`aug_suffix`** (_optional_ defaults to `false`) - For `mode="alt"`: Use augmentation orbs to fill empty suffix slots (set to `true` or `false`).
+  - **`aug_suffix`** (_optional_ defaults to `false`) - For `mode="alt"`: Same, but with suffix (set to `true` or `false`).
 
 ⚠️ **Important about regex:**
 
@@ -256,6 +256,7 @@ item_descripton = "advanced"
 
 - **Adjust `interval_ms`** if the script is skipping clicks or you're getting kicked for spam.
   - The interval should at least be higher than the latency to the server realm.
+- **Comment out often used crafts** so that you can simply uncomment the `spam` line when you go back to it. 
 - **Use a visible overlay** (ie, always-on-top PowerShell window or a 2nd monitor) to monitor progress.
 - **Test regex patterns** before large rolling sessions. One way to double check is to find a similar item on trade, go to their hideout, <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>C</kbd>, and paste it in [regex101.com](https://regex.101]). Don't forget to enable the `i` (insensitive) and `s` (single line) flag.
 - **Check [Craft of Exile](https://www.craftofexile.com/)** to understand your odds of certain mods (and adjust `safety_limit` appropriately). And start with a low `safety_limit` to test configuration.
